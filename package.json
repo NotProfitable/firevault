@@ -34,6 +34,7 @@
     "firebase": "8.2.9",
     "firebase-admin": "9.5.0",
     "idb": "3.0.2",
+    "lodash": "4.17.21",
     "mongodb": "3.6.4",
     "next": "10.0.7",
     "next-connect": "0.10.0",
