@@ -54,6 +54,12 @@ export default function LandingAppBar() {
             justifyContent: `space-between`,
           }}
         >
+          <img
+            className="m-1 p-1 w-10"
+            alt="Logo"
+
+            src="/firevault.svg"
+          />
           <Typography variant="h6" className={classes.title}>
             Firevault
           </Typography>
