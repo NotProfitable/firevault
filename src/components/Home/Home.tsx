@@ -35,8 +35,8 @@ export default function HomePage() {
   return (
     <div>
       <SignedInAppBar />
-      <div className={styles.container}>
-        <main className={styles.main}>
+      <div className="flex flex-col justify-center items-center pt-20">
+        <main className="flex flex-col justify-center flex-1 items-center p-5">
           <p>Welcome {name}. You are now signed-in!</p>
           <div className="grid grid-cols-1 md:grid-cols-2">
             <ImageTile />

@@ -54,12 +54,7 @@ export default function LandingAppBar() {
             justifyContent: `space-between`,
           }}
         >
-          <img
-            className="m-1 p-1 w-10"
-            alt="Logo"
-
-            src="/firevault.svg"
-          />
+          <img className="m-1 p-1 w-10" alt="Logo" src="/firevault.png" />
           <Typography variant="h6" className={classes.title}>
             Firevault
           </Typography>
@@ -83,7 +78,7 @@ export default function LandingAppBar() {
         onClose={handleClose}
       >
         <DialogTitle id="simple-dialog-title">Login / Sign Up</DialogTitle>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fire.auth()}/>
+        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fire.auth()} />
       </Dialog>
     </div>
   );
