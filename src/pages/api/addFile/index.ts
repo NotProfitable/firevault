@@ -1,6 +1,6 @@
 import nc from 'next-connect';
 import multer from 'multer';
-import uuid4 from 'uuid4';
+import { v4 as uuid4 } from 'uuid';
 import { storage } from '../../../../lib/firebase-admin';
 
 const stream = require(`stream`);
@@ -8,7 +8,7 @@ const stream = require(`stream`);
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // no larger than 5mb, you can change as needed.
+    fileSize: 5 * 1024 * 1024,
   },
 });
 const apiRoute = nc({
@@ -22,12 +22,14 @@ const apiRoute = nc({
   },
 });
 
-apiRoute.use(upload.single(`image`));
+apiRoute.use(upload.single(`file`));
 
 apiRoute.post(async (req, res, next) => {
-  console.log(req.file.name);
   const dataStream = new stream.PassThrough()
-  const file = storage.bucket().file(uuid4() + req.file.mimeType.substring(req.file.name.lastIndexOf(`.`)));
+  const fnuuid = uuid4();
+  const fn = fnuuid + `.` + req.file.mimetype.substring(req.file.mimetype.indexOf(`/`) + 1);
+  console.log(fn)
+  const file = storage.bucket().file(fn);
 
   dataStream.push(req.file.buffer)
   dataStream.push(null)
@@ -41,19 +43,18 @@ apiRoute.post(async (req, res, next) => {
     }))
       .on('error', (error : Error) => {
         console.log(`fuck`)
-        reject(error)
+        res.status(500).json({ status: "Error", error });
       })
       .on('finish', () => {
-        resolve(true)
+        res.status(200).json({ status: "Success" });
       })
   })
-
 });
 
 export default apiRoute;
 
 export const config = {
   api: {
-    bodyParser: false, // Disallow body parsing, consume as stream
+    bodyParser: false,
   },
 };
