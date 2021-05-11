@@ -41,10 +41,6 @@ apiRoute.post(async (req, res, next) => {
       contentType: req.file.mimeType,
       metadata   : {'Cache-Control': 'public, max-age=31536000'}
     }))
-      .on('error', (error : Error) => {
-        console.log(`fuck`)
-        res.status(500).json({ status: "Error", error });
-      })
       .on('finish', () => {
         res.status(200).json({ status: "Success" });
       })
