@@ -44,9 +44,10 @@ const handler = async (req: any, res: any) => {
   await runMiddleware(req, res, cors)
   await runMiddleware(req, res, upload.single(`file`))
 
-  if(!res.file){
+  if(!req.file){
     rollbar.error("No File Uploaded");
     res.status(400).json({ status: "Error: No file attached" });
+    return;
   }
 
   const dataStream = new stream.PassThrough()
