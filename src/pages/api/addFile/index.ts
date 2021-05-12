@@ -58,7 +58,7 @@ const handler = async (req: any, res: any) => {
   })
 }
 
-export default withSentry(handler);
+export default handler;
 
 export const config = {
   api: {
