@@ -7,6 +7,9 @@ import { withSentry } from '@sentry/nextjs';
 import Cors from 'cors'
 const stream = require(`stream`);
 var Rollbar = require("rollbar");
+import { runMiddleware } from '../../../../middlewares/runMiddleware'
+import { connectToDatabase } from '../../../../middlewares/database';
+import { withAuth } from '../../../../middlewares/withAuth';
 
 var rollbar = new Rollbar({
   accessToken: process.env.ROLLBAR,
@@ -27,22 +30,15 @@ const upload = multer({
   },
 });
 
-function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: any) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result: any) => {
-      if (result instanceof Error) {
-        return reject(result)
-      }
-
-      return resolve(result)
-    })
-  })
-}
-
-
 const handler = async (req: any, res: any) => {
   await runMiddleware(req, res, cors)
   await runMiddleware(req, res, upload.single(`file`))
+
+  const {
+    query: { uid },
+  } = req;
+
+  const { db } = await connectToDatabase();
 
   if(!req.file){
     rollbar.error("No File Uploaded");
@@ -70,14 +66,28 @@ const handler = async (req: any, res: any) => {
          rollbar.error("Upload Error");
          res.status(500).json({ status: "Error", error });
        })
-      .on('finish', () => {
+      .on('finish', async () => {
         rollbar.log("Image Uploaded");
-        res.status(200).json({ status: "Success" });
+        const response = await db.collection(uid as string).insertOne(
+          {
+            firebaseStoragePictureId: fn,
+            timestamp: new Date().toISOString(),
+          },
+          async (err, docsInserted) => {
+            if(err){
+               rollbar.error("Database Error");
+               res.status(500).json({ status: "Error", err });
+               return;
+            }
+            rollbar.log("Image Document Created");
+            res.status(200).json({ status: 200, id: docsInserted.insertedId });
+          },
+        );
       })
   })
 }
 
-export default handler;
+export default withAuth(handler);
 
 export const config = {
   api: {

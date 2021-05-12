@@ -1,8 +1,7 @@
 import { Db, MongoClient } from 'mongodb';
-import { mongoUsers } from '../credentials';
+import { mongoUsers, dbname } from '../credentials';
 
 const uri = mongoUsers;
-const dbName = `Users`;
 
 let client: MongoClient;
 let conn;
@@ -10,12 +9,6 @@ let conn;
 if (!uri) {
 	throw new Error(
 		`Please define the MONGODB_URI environment variable inside .env.local`,
-	);
-}
-
-if (!dbName) {
-	throw new Error(
-		`Please define the MONGODB_DB environment variable inside .env.local`,
 	);
 }
 
@@ -31,7 +24,7 @@ export async function connectToDatabase() {
 			useUnifiedTopology: true,
 		});
 	}
-	const db = await client.db(dbName);
+	const db = await client.db(dbname);
 
 	return { client, db };
 }

@@ -9,6 +9,7 @@ export const firebaseConfig = {
 };
 
 export const mongoUsers = process.env.MONGO_USERS;
+export const dbname = process.env.MONGODB_NAME;
 
 export const serviceAccount = {
   type: process.env.SERVICE_ACCOUNT_TYPE,
