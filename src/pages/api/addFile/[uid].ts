@@ -1,32 +1,19 @@
-import nc from 'next-connect';
 import multer from 'multer';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { v4 as uuid4 } from 'uuid';
 import { storage } from '../../../../lib/firebase-admin';
-import { withSentry } from '@sentry/nextjs';
-import Cors from 'cors'
 const stream = require(`stream`);
-var Rollbar = require("rollbar");
 import { runMiddleware } from '../../../../middlewares/runMiddleware'
 import { connectToDatabase } from '../../../../middlewares/database';
 import { withAuth } from '../../../../middlewares/withAuth';
+import { rollbar } from '../../../../middlewares/rollbar';
+import { cors } from '../../../../middlewares/cors';
 
-var rollbar = new Rollbar({
-  accessToken: process.env.ROLLBAR,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  environment: process.env.ROLLBAR_ENV || `production`
-});
-
-
-const cors = Cors({
-  methods: ['POST'],
-})
 
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024,
+    fileSize: 1000 * 1024 * 1024,
   },
 });
 
@@ -70,7 +57,7 @@ const handler = async (req: any, res: any) => {
         rollbar.log("Image Uploaded");
         const response = await db.collection(uid as string).insertOne(
           {
-            firebaseStoragePictureId: fn,
+            firebaseStorageFileId: fn,
             timestamp: new Date().toISOString(),
           },
           async (err, docsInserted) => {
@@ -87,7 +74,7 @@ const handler = async (req: any, res: any) => {
   })
 }
 
-export default withAuth(handler);
+export default handler;
 
 export const config = {
   api: {
