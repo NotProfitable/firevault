@@ -1,9 +1,15 @@
 import nc from 'next-connect';
 import multer from 'multer';
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { v4 as uuid4 } from 'uuid';
 import { storage } from '../../../../lib/firebase-admin';
-
+import { withSentry } from '@sentry/nextjs';
+import Cors from 'cors'
 const stream = require(`stream`);
+
+const cors = Cors({
+  methods: ['POST'],
+})
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -11,20 +17,25 @@ const upload = multer({
     fileSize: 5 * 1024 * 1024,
   },
 });
-const apiRoute = nc({
-  onError(error, req: any, res: any) {
-    res
-      .status(501)
-      .json({ error: `Sorry something Happened! ${error.message}` });
-  },
-  onNoMatch(req, res) {
-    res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
-  },
-});
 
-apiRoute.use(upload.single(`file`));
+function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: any) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result)
+      }
 
-apiRoute.post(async (req, res, next) => {
+      return resolve(result)
+    })
+  })
+}
+
+
+const handler = async (req: any, res: any) => {
+  // Run the middleware
+  await runMiddleware(req, res, cors)
+  await runMiddleware(req, res, upload.single(`file`))
+
   const dataStream = new stream.PassThrough()
   const fnuuid = uuid4();
   const fn = fnuuid + `.` + req.file.mimetype.substring(req.file.mimetype.indexOf(`/`) + 1);
@@ -45,9 +56,9 @@ apiRoute.post(async (req, res, next) => {
         res.status(200).json({ status: "Success" });
       })
   })
-});
+}
 
-export default apiRoute;
+export default withSentry(handler);
 
 export const config = {
   api: {
