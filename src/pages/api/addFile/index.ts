@@ -4,12 +4,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { v4 as uuid4 } from 'uuid';
 import { storage } from '../../../../lib/firebase-admin';
 import { withSentry } from '@sentry/nextjs';
-import Cors from 'cors'
 const stream = require(`stream`);
 
-const cors = Cors({
-  methods: ['POST'],
-})
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -32,8 +28,6 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: any) {
 
 
 const handler = async (req: any, res: any) => {
-  // Run the middleware
-  await runMiddleware(req, res, cors)
   await runMiddleware(req, res, upload.single(`file`))
 
   const dataStream = new stream.PassThrough()
