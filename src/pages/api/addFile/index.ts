@@ -6,6 +6,15 @@ import { storage } from '../../../../lib/firebase-admin';
 import { withSentry } from '@sentry/nextjs';
 import Cors from 'cors'
 const stream = require(`stream`);
+var Rollbar = require("rollbar");
+
+var rollbar = new Rollbar({
+  accessToken: process.env.ROLLBAR,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  environment: process.env.ROLLBAR_ENV || `production`
+});
+
 
 const cors = Cors({
   methods: ['POST'],
@@ -51,7 +60,12 @@ const handler = async (req: any, res: any) => {
       contentType: req.file.mimeType,
       metadata   : {'Cache-Control': 'public, max-age=31536000'}
     }))
+      .on('error', (error : Error) => {
+         rollbar.error("Upload Error");
+         res.status(500).json({ status: "Error", error });
+       })
       .on('finish', () => {
+        rollbar.log("Image Uploaded");
         res.status(200).json({ status: "Success" });
       })
   })
