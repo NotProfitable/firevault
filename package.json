@@ -5,11 +5,6 @@
   "private": true,
   "author": "ashwink0",
   "license": "MIT",
-  "keywords": [
-    "nextjs",
-    "starter",
-    "typescript"
-  ],
   "scripts": {
     "dev": "next",
     "build": "next build",
