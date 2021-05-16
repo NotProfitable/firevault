@@ -8,6 +8,8 @@ import { connectToDatabase } from '../../../../middlewares/database';
 import { withAuth } from '../../../../middlewares/withAuth';
 import { rollbar } from '../../../../middlewares/rollbar';
 import { cors } from '../../../../middlewares/cors';
+const FileType = require('file-type');
+
 
 
 const upload = multer({
@@ -35,7 +37,9 @@ const handler = async (req: any, res: any) => {
 
   const dataStream = new stream.PassThrough()
   const fnuuid = uuid4();
-  const fn = fnuuid + `.` + req.file.mimetype.substring(req.file.mimetype.indexOf(`/`) + 1);
+  const ftype= await FileType.fromBuffer(req.file.buffer)
+  console.log(ftype);
+  const fn = fnuuid + `.` + ftype.ext;
   console.log(fn)
   const file = storage.bucket().file(fn);
 
@@ -67,7 +71,7 @@ const handler = async (req: any, res: any) => {
                return;
             }
             rollbar.log("Image Document Created");
-            res.status(200).json({ status: 200, id: docsInserted.insertedId });
+            res.status(200).send("/" + uid + docsInserted.insertedId);
           },
         );
       })

@@ -37,22 +37,22 @@ const handler = async (req: any, res: any) => {
     });
     if (response) {
       const file = storage.bucket().file(response.firebaseStorageFileId);
-      let fileUrl = await file
+      let fileUrl: any = await file
         .getSignedUrl({
           version: 'v2',
           action: 'read',
-          expires: Date.now() + 1000 * 60,
+          expires: Date.now() + 1000 * 60 * 10,  //5 min
         })
         .catch((err) => {
           console.log(err);
         });
 
-        res.send(fileUrl)
+        res.redirect(fileUrl[0])
     } else {
-      res.status(404).json({});
+      res.send("This file does not exist").status(404);
     }
   } catch (err) {
-    res.status(404).json({});
+     res.send("This file does not exist").status(404);
   }
 };
 
