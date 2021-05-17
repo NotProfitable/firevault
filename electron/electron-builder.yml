@@ -1,0 +1,12 @@
+appId: com.firevault.app
+productName: Firevault
+copyright: Copyright © 2021 Firevault
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null
