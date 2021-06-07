@@ -13,7 +13,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import fire from '../utils/firebase';
 
 export const uiConfig = {
-  signInFlow: `popup`,
+  signInFlow: `redirect`,
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
