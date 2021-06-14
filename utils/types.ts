@@ -5,3 +5,10 @@ export interface FileDocument {
   firebaseStorageFileId: string;
   timestamp: Date;
 }
+
+export interface FileDocumentMongo {
+  _id: string;
+  buffer: Buffer;
+  firebaseStorageFileId: string;
+  timestamp: Date;
+}

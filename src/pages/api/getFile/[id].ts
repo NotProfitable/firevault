@@ -40,9 +40,7 @@ const handler = async (req: any, res: any) => {
       })
       .on(`end`, async () => {
         const ftype = await FileType.fromBuffer(fileContents);
-        console.log(ftype);
-        console.log(ftype.mime);
-        console.log(fileContents);
+
         res.setHeader(`Content-Type`, ftype.mime);
         res.send(fileContents);
       });
