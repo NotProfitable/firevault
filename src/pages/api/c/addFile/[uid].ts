@@ -1,13 +1,11 @@
 import multer from 'multer';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { v4 as uuid4 } from 'uuid';
-import { storage } from '../../../../../lib/firebase-admin';
 import { runMiddleware } from '../../../../../middlewares/runMiddleware';
 import { connectToDatabase } from '../../../../../middlewares/database';
-import { withAuth } from '../../../../../middlewares/withAuth';
 import { rollbar } from '../../../../../middlewares/rollbar';
 import { cors } from '../../../../../middlewares/cors';
 
+const { compress } = require(`iltorb`);
 const stream = require(`stream`);
 const FileType = require(`file-type`);
 
@@ -41,14 +39,13 @@ const handler = async (req: any, res: any) => {
 
   dataStream.push(req.file.buffer);
   dataStream.push(null);
-
-  const response = await db.collection(uid as string).insertOne(
+  const response = db.collection(uid as string).insertOne(
     {
       firebaseStorageFileId: fn,
-      buffer: req.file.buffer,
+      buffer: await compress(req.file.buffer),
       timestamp: new Date().toISOString(),
     },
-    async (err, docsInserted) => {
+    async (err: any, docsInserted: { insertedId: any }) => {
       if (err) {
         rollbar.error(`Database Error`);
         res.status(500).json({ status: `Error`, err });

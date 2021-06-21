@@ -1,10 +1,10 @@
 import { ObjectId } from 'bson';
-import { storage } from '../../../../../lib/firebase-admin';
 import { runMiddleware } from '../../../../../middlewares/runMiddleware';
 import { connectToDatabase } from '../../../../../middlewares/database';
 import { cors } from '../../../../../middlewares/cors';
 import { FileDocumentMongo } from '../../../../../utils/types';
 
+const { decompress } = require(`iltorb`);
 const stream = require(`stream`);
 const FileType = require(`file-type`);
 
@@ -31,9 +31,10 @@ const handler = async (req: any, res: any) => {
       _id: new ObjectId(fileMongoId),
     });
   if (response) {
-    const ftype = await FileType.fromBuffer(response.buffer.buffer);
+    const decompressed = await decompress(response.buffer.buffer);
+    const ftype = await FileType.fromBuffer(decompressed);
     res.setHeader(`Content-Type`, ftype.mime);
-    res.send(response.buffer.buffer);
+    res.send(decompressed);
   } else {
     res.send(`This file does not exist`);
   }
