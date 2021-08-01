@@ -19,6 +19,7 @@ const handler = async (req: any, res: any) => {
     action: `read`,
     expires: Date.now() + 1000 * 10,
   };
+  if (id.length !== 52) res.send(`This file does not exist`);
 
   const uid = id.substring(0, 28);
   const fileMongoId = id.substring(28);

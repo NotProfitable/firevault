@@ -2,8 +2,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 import SignedInAppBar from '@/components/SignedInAppBar';
 import ImageTile from '@/components/Home/Images/ImageTile';
+import AccountImages from "@/components/Home/Images/AccountImages";
 import fire from '../../../utils/firebase';
-import styles from '../../styles/Home.module.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +43,7 @@ export default function HomePage() {
             <ImageTile />
             <ImageTile />
             <ImageTile />
+            <AccountImages />
           </div>
         </main>
       </div>
