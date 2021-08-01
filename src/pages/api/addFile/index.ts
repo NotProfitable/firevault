@@ -38,6 +38,7 @@ const handler = async (req: any, res: any) => {
   const fnuuid = uuid4();
   const ftype = await FileType.fromBuffer(req.file.buffer);
   const fn = `${fnuuid}.${ftype.ext}`;
+  const orName = req.file.butter.name;
 
   dataStream.push(req.file.buffer);
   dataStream.push(null);
@@ -47,6 +48,7 @@ const handler = async (req: any, res: any) => {
       firebaseStorageFileId: fn,
       buffer: req.file.buffer,
       timestamp: new Date().toISOString(),
+      name: orName,
     },
     async (err: any, docsInserted: { insertedId: any }) => {
       if (err) {

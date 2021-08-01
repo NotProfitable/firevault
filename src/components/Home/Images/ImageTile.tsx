@@ -1,8 +1,11 @@
 import { FileDocumentMongo } from '../../../../utils/types';
+import fire from '../../../../utils/firebase';
 
 export default function ImageTile(props: { file: FileDocumentMongo }) {
-  const dateAdded: string = props.file.timestamp;
+  const dateAdded: string = new Date(props.file.timestamp).toDateString();
   const name: string = props.file.firebaseStorageFileId;
+  const link = `/${fire.auth().currentUser!.uid}${props.file._id}`;
+
   return (
     <figure className="m-2 w-72 md:w-96 md:flex transition duration-500 ease-in-out bg-gray-100 rounded-xl md:hover:shadow-lg m-4">
       <div className="flex flex-col justify-center items-center">
@@ -18,7 +21,9 @@ export default function ImageTile(props: { file: FileDocumentMongo }) {
         </blockquote>
         <figcaption className="font-medium">
           <div className="text-cyan-600">{dateAdded}</div>
-          <div className="text-gray-500">Link</div>
+          <a className="text-gray-500" href={link}>
+            Link
+          </a>
         </figcaption>
       </div>
     </figure>

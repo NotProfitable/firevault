@@ -44,7 +44,6 @@ export default function HomePage() {
   const photoURL = fire.auth()?.currentUser?.photoURL;
   const name = fire.auth().currentUser!.displayName;
 
-
   return (
     <div>
       <SignedInAppBar />
