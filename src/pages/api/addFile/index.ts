@@ -1,11 +1,11 @@
 import multer from 'multer';
 import { v4 as uuid4 } from 'uuid';
-import { runMiddleware } from '../../../../../middlewares/runMiddleware';
-import { connectToDatabase } from '../../../../../middlewares/database';
-import { rollbar } from '../../../../../middlewares/rollbar';
-import { cors } from '../../../../../middlewares/cors';
+import { runMiddleware } from '../../../../middlewares/runMiddleware';
+import { connectToDatabase } from '../../../../middlewares/database';
+import { rollbar } from '../../../../middlewares/rollbar';
+import { cors } from '../../../../middlewares/cors';
+import { getUID } from '../../../../middlewares/getUID';
 
-const { compress } = require(`iltorb`);
 const stream = require(`stream`);
 const FileType = require(`file-type`);
 
@@ -19,10 +19,12 @@ const upload = multer({
 const handler = async (req: any, res: any) => {
   await runMiddleware(req, res, cors);
   await runMiddleware(req, res, upload.single(`file`));
-
-  const {
-    query: { uid },
-  } = req;
+  let a = ``;
+  try {
+    a = await getUID(req.headers.authorization);
+  } catch (e) {
+    res.status(401).json({ error: `No auth` });
+  }
 
   const { db } = await connectToDatabase();
 
@@ -39,10 +41,11 @@ const handler = async (req: any, res: any) => {
 
   dataStream.push(req.file.buffer);
   dataStream.push(null);
-  const response = db.collection(uid as string).insertOne(
+
+  const response = await db.collection(a as string).insertOne(
     {
       firebaseStorageFileId: fn,
-      buffer: await compress(req.file.buffer),
+      buffer: req.file.buffer,
       timestamp: new Date().toISOString(),
     },
     async (err: any, docsInserted: { insertedId: any }) => {
@@ -52,7 +55,7 @@ const handler = async (req: any, res: any) => {
         return;
       }
       rollbar.log(`Image Document Created`);
-      res.status(200).send(`/${uid}${docsInserted.insertedId}`);
+      res.status(200).send(`/${a}${docsInserted.insertedId}`);
     },
   );
 };
