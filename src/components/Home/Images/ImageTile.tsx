@@ -3,7 +3,7 @@ import fire from '../../../../utils/firebase';
 
 export default function ImageTile(props: { file: FileDocumentMongo }) {
   const dateAdded: string = new Date(props.file.timestamp).toDateString();
-  const name: string = props.file.firebaseStorageFileId;
+  const name: string = props.file.name;
   const link = `/${fire.auth().currentUser!.uid}${props.file._id}`;
 
   return (

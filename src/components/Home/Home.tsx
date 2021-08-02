@@ -1,9 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SignedInAppBar from '@/components/SignedInAppBar';
 import ImageTile from '@/components/Home/Images/ImageTile';
 import AccountImages from '@/components/Home/Images/AccountImages';
+import Dropzone, { useDropzone } from 'react-dropzone';
+import { RootRef, Paper } from '@material-ui/core';
 import fire from '../../../utils/firebase';
+import DropzoneArea from "@/components/Home/Images/Dropzone";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +27,7 @@ export default function HomePage() {
   useEffect(() => {
     fire
       .auth()
-      .currentUser?.getIdToken(true)
+      .currentUser?.getIdToken(false)
       .then((idToken) => {
         fetch(`/api/getAccountImages`, {
           method: `GET`,
@@ -36,7 +39,6 @@ export default function HomePage() {
           .then((json) => {
             setLoading(false);
             setData(json);
-            console.log(json);
           });
       });
   });
@@ -50,6 +52,7 @@ export default function HomePage() {
       <div className="flex flex-col justify-center items-center pt-20">
         <main className="flex flex-col justify-center flex-1 items-center p-5">
           <p>Welcome {name}. You are now signed-in!</p>
+          <DropzoneArea />
           <AccountImages loading={loading} data={data} />
         </main>
       </div>

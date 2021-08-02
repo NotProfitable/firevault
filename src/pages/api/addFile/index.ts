@@ -38,8 +38,8 @@ const handler = async (req: any, res: any) => {
   const fnuuid = uuid4();
   const ftype = await FileType.fromBuffer(req.file.buffer);
   const fn = `${fnuuid}.${ftype.ext}`;
-  const orName = req.file.butter.name;
-
+  const orName = req.file.originalname;
+  console.log(req.file);
   dataStream.push(req.file.buffer);
   dataStream.push(null);
 
@@ -57,7 +57,7 @@ const handler = async (req: any, res: any) => {
         return;
       }
       rollbar.log(`Image Document Created`);
-      res.status(200).send(`/${a}${docsInserted.insertedId}`);
+      res.status(200).json({ endpoint: `/${a}${docsInserted.insertedId}` });
     },
   );
 };
