@@ -1,6 +1,6 @@
 import { ObjectId } from 'bson';
 import { runMiddleware } from '../../../../middlewares/runMiddleware';
-import { connectToDatabase } from '../../../../middlewares/database';
+import { closeDB, connectToDatabase} from '../../../../middlewares/database';
 import { cors } from '../../../../middlewares/cors';
 import { FileDocumentMongo } from '../../../../utils/types';
 
@@ -30,6 +30,7 @@ const handler = async (req: any, res: any) => {
     .findOne({
       _id: new ObjectId(fileMongoId),
     });
+  closeDB();
   if (response) {
     const ftype = await FileType.fromBuffer(response.buffer.buffer);
     res.setHeader(`Content-Type`, ftype.mime);
