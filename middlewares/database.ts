@@ -28,6 +28,3 @@ export async function connectToDatabase() {
 
   return { client, db };
 }
-export function closeDB(){
-  client.close();
-}

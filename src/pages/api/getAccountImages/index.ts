@@ -2,7 +2,7 @@ import { runMiddleware } from '../../../../middlewares/runMiddleware';
 import { cors } from '../../../../middlewares/cors';
 import { getUID } from '../../../../middlewares/getUID';
 import { FileDocumentMongo } from '../../../../utils/types';
-import {closeDB, connectToDatabase} from '../../../../middlewares/database';
+import { connectToDatabase } from '../../../../middlewares/database';
 
 const FileType = require(`file-type`);
 
@@ -22,8 +22,6 @@ const handler = async (req: any, res: any) => {
     .forEach((item) => {
       files.push(item);
     });
-  closeDB();
-
   res.status(200).json(files);
 };
 

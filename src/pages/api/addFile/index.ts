@@ -1,7 +1,7 @@
 import multer from 'multer';
 import { v4 as uuid4 } from 'uuid';
 import { runMiddleware } from '../../../../middlewares/runMiddleware';
-import {closeDB, connectToDatabase} from '../../../../middlewares/database';
+import { connectToDatabase } from '../../../../middlewares/database';
 import { rollbar } from '../../../../middlewares/rollbar';
 import { cors } from '../../../../middlewares/cors';
 import { getUID } from '../../../../middlewares/getUID';
@@ -59,7 +59,6 @@ const handler = async (req: any, res: any) => {
       res.status(200).json({ endpoint: `/${a}${docsInserted.insertedId}` });
     },
   );
-  closeDB();
 };
 
 export default handler;
