@@ -39,7 +39,6 @@ const handler = async (req: any, res: any) => {
   const ftype = await FileType.fromBuffer(req.file.buffer);
   const fn = `${fnuuid}.${ftype.ext}`;
   const orName = req.file.originalname;
-  console.log(req.file);
   dataStream.push(req.file.buffer);
   dataStream.push(null);
 

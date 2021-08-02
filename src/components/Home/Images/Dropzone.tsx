@@ -77,6 +77,7 @@ function DropzoneArea() {
           .then((json) => {
             console.log(json);
             setLoading(false);
+            window.location.reload();
           });
       });
   };
