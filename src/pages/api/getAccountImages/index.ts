@@ -22,7 +22,7 @@ const handler = async (req: any, res: any) => {
     .forEach((item) => {
       files.push(item);
     });
-  res.status(200).json(files);
+  res.status(200).json(files.reverse());
 };
 
 export default handler;
