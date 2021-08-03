@@ -1,11 +1,13 @@
 import multer from 'multer';
 import { v4 as uuid4 } from 'uuid';
 import { runMiddleware } from '../../../../middlewares/runMiddleware';
-import {connectToDatabase, connectToFileDatabase} from '../../../../middlewares/database';
+import {
+  connectToDatabase,
+  connectToFileDatabase,
+} from '../../../../middlewares/database';
 import { rollbar } from '../../../../middlewares/rollbar';
 import { cors } from '../../../../middlewares/cors';
 import { getUID } from '../../../../middlewares/getUID';
-import {ObjectId} from "bson";
 
 const stream = require(`stream`);
 const FileType = require(`file-type`);
@@ -37,9 +39,6 @@ const handler = async (req: any, res: any) => {
   }
 
   const dataStream = new stream.PassThrough();
-  const fnuuid = uuid4();
-  const ftype = await FileType.fromBuffer(req.file.buffer);
-  const fn = `${fnuuid}.${ftype.ext}`;
   const orName = req.file.originalname;
   dataStream.push(req.file.buffer);
   dataStream.push(null);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Loading from '@/components/Home/Loading';
 import Landing from '@/components/Home/Landing';
 import HomePage from '@/components/Home/Home';
@@ -11,25 +11,27 @@ export default function Home() {
 
   useEffect(() => {
     const unregisterAuthObserver = fire.auth().onAuthStateChanged((user) => {
-      setIsSignedIn(!!user);
-      setSigned(true);
+      setTimeout(() => {
+        setIsSignedIn(!!user);
+        setSigned(true);
+      }, 1000);
     });
     return () => unregisterAuthObserver();
   }, []);
 
   const returnElement = () => {
     if (!isSignedIn && !signed) {
-      return <Loading />;
+      return <Loading/>;
     }
     if (!isSignedIn) {
-      return <Landing />;
+      return <Landing/>;
     }
-    return <HomePage />;
+    return <HomePage/>;
   };
 
   return (
     <div>
-      <PageHead />
+      <PageHead/>
       {returnElement()}
     </div>
   );
