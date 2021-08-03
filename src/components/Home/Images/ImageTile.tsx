@@ -14,7 +14,9 @@ export default function ImageTile(props: { file: FileDocumentMongo }) {
         </blockquote>
         <figcaption className="font-medium">
           <div className="text-cyan-600">{dateAdded}</div>
-          <a href={link}>Link</a>
+          <a href={link} className="text-blue-500">
+            Link
+          </a>
         </figcaption>
       </div>
     </figure>
