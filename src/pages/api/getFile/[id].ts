@@ -1,6 +1,6 @@
 import { ObjectId } from 'bson';
 import { runMiddleware } from '../../../../middlewares/runMiddleware';
-import { connectToDatabase} from '../../../../middlewares/database';
+import {connectToDatabase, connectToFileDatabase} from '../../../../middlewares/database';
 import { cors } from '../../../../middlewares/cors';
 import { FileDocumentMongo } from '../../../../utils/types';
 
@@ -24,11 +24,11 @@ const handler = async (req: any, res: any) => {
   const uid = id.substring(0, 28);
   const fileMongoId = id.substring(28);
 
-  const { db } = await connectToDatabase();
-  const response: FileDocumentMongo = await db
+  const { dbFile } = await connectToFileDatabase();
+  const response: FileDocumentMongo = await dbFile
     .collection(uid as string)
     .findOne({
-      _id: new ObjectId(fileMongoId),
+      fileid: new ObjectId(fileMongoId),
     });
   if (response) {
     const ftype = await FileType.fromBuffer(response.buffer.buffer);

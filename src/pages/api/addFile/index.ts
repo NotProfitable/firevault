@@ -1,10 +1,11 @@
 import multer from 'multer';
 import { v4 as uuid4 } from 'uuid';
 import { runMiddleware } from '../../../../middlewares/runMiddleware';
-import { connectToDatabase } from '../../../../middlewares/database';
+import {connectToDatabase, connectToFileDatabase} from '../../../../middlewares/database';
 import { rollbar } from '../../../../middlewares/rollbar';
 import { cors } from '../../../../middlewares/cors';
 import { getUID } from '../../../../middlewares/getUID';
+import {ObjectId} from "bson";
 
 const stream = require(`stream`);
 const FileType = require(`file-type`);
@@ -27,6 +28,7 @@ const handler = async (req: any, res: any) => {
   }
 
   const { db } = await connectToDatabase();
+  const { dbFile } = await connectToFileDatabase();
 
   if (!req.file) {
     rollbar.error(`No File Uploaded`);
@@ -41,11 +43,10 @@ const handler = async (req: any, res: any) => {
   const orName = req.file.originalname;
   dataStream.push(req.file.buffer);
   dataStream.push(null);
+  let infoId;
 
   const response = await db.collection(a as string).insertOne(
     {
-      firebaseStorageFileId: fn,
-      buffer: req.file.buffer,
       timestamp: new Date().toISOString(),
       name: orName,
     },
@@ -55,8 +56,25 @@ const handler = async (req: any, res: any) => {
         res.status(500).json({ status: `Error`, err });
         return;
       }
-      rollbar.log(`Image Document Created`);
-      res.status(200).json({ endpoint: `/${a}${docsInserted.insertedId}` });
+      rollbar.log(`Image Info Document Created`);
+      infoId = docsInserted.insertedId;
+      await dbFile.collection(a as string).insertOne(
+        {
+          fileid: infoId,
+          buffer: req.file.buffer,
+          name: orName,
+        },
+        // eslint-disable-next-line no-shadow
+        async (err: any, docsInserted: { insertedId: any }) => {
+          if (err) {
+            rollbar.error(`Database Error`);
+            res.status(500).json({ status: `Error`, err });
+            return;
+          }
+          rollbar.log(`Image File Document Created`);
+          res.status(200).json({ endpoint: `/${a}${docsInserted.insertedId}` });
+        },
+      );
     },
   );
 };

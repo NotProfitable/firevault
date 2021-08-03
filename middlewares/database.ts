@@ -28,3 +28,20 @@ export async function connectToDatabase() {
 
   return { client, db };
 }
+
+export async function connectToFileDatabase() {
+  try {
+    conn = client.isConnected;
+  } catch (err) {
+    conn = false;
+  }
+  if (!conn) {
+    client = await MongoClient.connect(uri as string, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  }
+  const dbFile = await client.db(`UserFiles`);
+
+  return { client, dbFile };
+}
