@@ -11,7 +11,7 @@ export default function PageHead() {
       <meta property="og:title" content="Firevault" key="title" />
       <meta property="og:description" content="" />
       <meta name="twitter:card" content="summary" />
-      <meta name="twitter:creator" content="@ashwin__" />
+      <meta name="twitter:creator" content="@not_profitable" />
     </Head>
   );
 }

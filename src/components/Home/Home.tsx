@@ -4,6 +4,7 @@ import SignedInAppBar from '@/components/SignedInAppBar';
 import AccountImages from '@/components/Home/Images/AccountImages';
 import DropzoneArea from '@/components/Home/Images/Dropzone';
 import fire from '../../../utils/firebase';
+import PageHead from "@/components/PageHead";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +50,7 @@ export default function HomePage() {
 
   return (
     <div>
+      <PageHead />
       <SignedInAppBar />
       <div className="flex flex-col justify-center items-center pt-20">
         <main className="flex flex-col justify-center flex-1 items-center p-5">
