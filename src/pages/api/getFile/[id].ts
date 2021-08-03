@@ -35,6 +35,9 @@ const handler = async (req: any, res: any) => {
     });
   if (response) {
     const ftype = await FileType.fromBuffer(response.buffer.buffer);
+    if (ftype.mime) {
+      res.setHeader(`Content-Type`, ftype.mime);
+    }
     res.send(response.buffer.buffer);
   } else {
     res.send(`This file does not exist`);
