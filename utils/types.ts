@@ -12,4 +12,5 @@ export interface FileDocumentMongo {
   firebaseStorageFileId: string;
   timestamp: Date;
   name: string;
+  size: number;
 }

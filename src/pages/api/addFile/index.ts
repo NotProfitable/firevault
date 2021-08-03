@@ -49,6 +49,7 @@ const handler = async (req: any, res: any) => {
     {
       timestamp: new Date().toISOString(),
       name: orName,
+      size: req.file.size,
     },
     async (err: any, docsInserted: { insertedId: any }) => {
       if (err) {
