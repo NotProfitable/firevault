@@ -65,21 +65,21 @@ export default function LandingAppBar() {
               }}
             />
           </IconButton>
-          <Button onClick={handleOpen} color="inherit">
-            Login / Sign Up
-          </Button>
+          {/*<Button onClick={handleOpen} color="inherit">*/}
+          {/*  Login / Sign Up*/}
+          {/*</Button>*/}
         </Toolbar>
       </AppBar>
-      <Dialog
-        fullWidth
-        maxWidth="xs"
-        aria-labelledby="simple-dialog-title"
-        open={open}
-        onClose={handleClose}
-      >
-        <DialogTitle id="simple-dialog-title">Login / Sign Up</DialogTitle>
-        <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fire.auth()} />
-      </Dialog>
+      {/*<Dialog*/}
+      {/*  fullWidth*/}
+      {/*  maxWidth="xs"*/}
+      {/*  aria-labelledby="simple-dialog-title"*/}
+      {/*  open={open}*/}
+      {/*  onClose={handleClose}*/}
+      {/*>*/}
+      {/*  <DialogTitle id="simple-dialog-title">Login / Sign Up</DialogTitle>*/}
+      {/*  <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fire.auth()} />*/}
+      {/*</Dialog>*/}
     </div>
   );
 }
