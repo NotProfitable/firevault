@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import { Button, CircularProgress } from '@material-ui/core';
+import {
+  Button,
+  CircularProgress,
+  TextField,
+  Snackbar,
+} from '@material-ui/core';
+import Alert from '@/components/Alert';
 import fire from '../../../../utils/firebase';
 
 const getColor = (props: {
@@ -29,10 +35,10 @@ const Container = styled.div`
   border-width: 2px;
   border-radius: 2px;
   border-color: ${(props: {
-    isDragAccept: any;
-    isDragReject: any;
-    isDragActive: any;
-  }) => getColor(props)};
+  isDragAccept: any;
+  isDragReject: any;
+  isDragActive: any;
+}) => getColor(props)};
   border-style: dashed;
   outline: none;
   transition: border 0.24s ease-in-out;
@@ -40,6 +46,7 @@ const Container = styled.div`
 
 function DropzoneArea() {
   const [loading, setLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
   const {
     getRootProps,
     getInputProps,
@@ -53,7 +60,17 @@ function DropzoneArea() {
   const files = acceptedFiles.map((file) => (
     <li key={file.name}>{file.name}</li>
   ));
+  const openSnackbar = () => {
+    setAlertOpen(true);
+  };
+  const closeSnackbar = () => {
+    setAlertOpen(false);
+  };
   const uploadFiles = () => {
+    if (acceptedFiles.length !== 1) {
+      openSnackbar()
+      return;
+    }
     setLoading(true);
     const formData = new FormData();
 
@@ -91,7 +108,7 @@ function DropzoneArea() {
         {/* <h4>Files</h4> */}
         <ul>{files}</ul>
       </aside>
-      <div className="flex flex-row justify-center align-middle p-3">
+      <div className="flex flex-row justify-center align-middle p-2">
         {loading ? (
           <CircularProgress />
         ) : (
@@ -100,7 +117,19 @@ function DropzoneArea() {
           </Button>
         )}
       </div>
+      <Snackbar
+        anchorOrigin={{
+          vertical: `bottom`,
+          horizontal: `left`,
+        }}
+        open={alertOpen}
+        autoHideDuration={3000}
+        onClose={closeSnackbar}
+      >
+        <Alert severity="error">Attach a file.</Alert>
+      </Snackbar>
     </div>
   );
 }
+
 export default DropzoneArea;

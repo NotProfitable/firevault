@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Loading from '@/components/Home/Loading';
 import Landing from '@/components/Home/Landing';
 import HomePage from '@/components/Home/Home';
@@ -11,10 +11,8 @@ export default function Home() {
 
   useEffect(() => {
     const unregisterAuthObserver = fire.auth().onAuthStateChanged((user) => {
-      setTimeout(() => {
-        setIsSignedIn(!!user);
-        setSigned(true);
-      }, 1000);
+      setIsSignedIn(!!user);
+      setSigned(true);
     });
     return () => unregisterAuthObserver();
   }, []);
@@ -30,7 +28,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-full bg-white dark:bg-gray-900">
+    <div className="h-full bg-white dark:bg-gray-800">
       <PageHead />
       {returnElement()}
     </div>

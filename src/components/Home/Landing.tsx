@@ -6,7 +6,7 @@ export default function Landing() {
   return (
     <div>
       <LandingAppBar />
-      <div className="flex flex-col items-center justify-center h-full text-center">
+      <div className="flex flex-col items-center justify-center h-screen text-center text-black dark:text-white">
         <div className="m-32">
           <h1 className="text-4xl font-bold">Landing</h1>
           <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fire.auth()} />
