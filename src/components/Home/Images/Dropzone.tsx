@@ -98,9 +98,10 @@ function DropzoneArea() {
           body: formData,
         })
           .then((res) => {
+            console.log(res.status)
             if (res.status !== 200) {
               setLoading(false);
-              setUploadStatus(`${res.status} - ${statusName(res.status)}`);
+              setUploadStatus(`${res.status} - ${statusName[`${res.status}_NAME`]}`);
               setUploadStatusShown(true);
               uploadError=true;
             }
@@ -153,7 +154,7 @@ function DropzoneArea() {
           horizontal: `left`,
         }}
         open={uploadStatusShown}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={closeStatusSnackbar}
       >
         <Alert severity="error">{uploadStatus}.</Alert>
