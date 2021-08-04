@@ -46,8 +46,10 @@ const Container = styled.div`
 
 function DropzoneArea() {
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(``);
+  const [uploadStatus, setUploadStatus] = useState(``);
+  const [uploadStatusShown, setUploadStatusShown] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  let uploadError=false;
   const {
     getRootProps,
     getInputProps,
@@ -66,6 +68,12 @@ function DropzoneArea() {
   };
   const closeSnackbar = () => {
     setAlertOpen(false);
+  };
+  const openStatusSnackbar = () => {
+    setUploadStatusShown(true);
+  };
+  const closeStatusSnackbar = () => {
+    setUploadStatusShown(false);
   };
   const uploadFiles = () => {
     if (acceptedFiles.length !== 1) {
@@ -90,14 +98,17 @@ function DropzoneArea() {
         })
           .then((res) => {
             if (res.status !== 200) {
-              setStatus(res.statusText);
+              setUploadStatus(res.statusText);
+              setUploadStatusShown(true);
+              uploadError=true;
             }
             return res.json();
           })
           .then((json) => {
-            console.log(json);
             setLoading(false);
-            window.location.reload();
+            if(!uploadError) {
+              window.location.reload();
+            }
           });
       });
   };
@@ -132,7 +143,18 @@ function DropzoneArea() {
         autoHideDuration={3000}
         onClose={closeSnackbar}
       >
-        <Alert severity="error">Attach a file.</Alert>
+        <Alert severity="warning">Attach a file.</Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{
+          vertical: `bottom`,
+          horizontal: `left`,
+        }}
+        open={uploadStatusShown}
+        autoHideDuration={3000}
+        onClose={closeStatusSnackbar}
+      >
+        <Alert severity="error">{uploadStatus}.</Alert>
       </Snackbar>
     </div>
   );
