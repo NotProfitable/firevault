@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import Alert from '@/components/Alert';
 import fire from '../../../../utils/firebase';
+const statusName = require('http-status');
 
 const getColor = (props: {
   isDragAccept: any;
@@ -98,7 +99,8 @@ function DropzoneArea() {
         })
           .then((res) => {
             if (res.status !== 200) {
-              setUploadStatus(res.statusText);
+              setLoading(false);
+              setUploadStatus(`${res.status} - ${statusName(res.status)}`);
               setUploadStatusShown(true);
               uploadError=true;
             }
