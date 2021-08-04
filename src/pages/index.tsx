@@ -11,8 +11,10 @@ export default function Home() {
 
   useEffect(() => {
     const unregisterAuthObserver = fire.auth().onAuthStateChanged((user) => {
-      setIsSignedIn(!!user);
-      setSigned(true);
+      setTimeout(() => {
+        setIsSignedIn(!!user);
+        setSigned(true);
+      }, 1000);
     });
     return () => unregisterAuthObserver();
   }, []);

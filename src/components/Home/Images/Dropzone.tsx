@@ -35,10 +35,10 @@ const Container = styled.div`
   border-width: 2px;
   border-radius: 2px;
   border-color: ${(props: {
-  isDragAccept: any;
-  isDragReject: any;
-  isDragActive: any;
-}) => getColor(props)};
+    isDragAccept: any;
+    isDragReject: any;
+    isDragActive: any;
+  }) => getColor(props)};
   border-style: dashed;
   outline: none;
   transition: border 0.24s ease-in-out;
@@ -46,6 +46,7 @@ const Container = styled.div`
 
 function DropzoneArea() {
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(``);
   const [alertOpen, setAlertOpen] = useState(false);
   const {
     getRootProps,
@@ -68,7 +69,7 @@ function DropzoneArea() {
   };
   const uploadFiles = () => {
     if (acceptedFiles.length !== 1) {
-      openSnackbar()
+      openSnackbar();
       return;
     }
     setLoading(true);
@@ -87,7 +88,12 @@ function DropzoneArea() {
           },
           body: formData,
         })
-          .then((res) => res.json())
+          .then((res) => {
+            if (res.status !== 200) {
+              setStatus(res.statusText);
+            }
+            return res.json();
+          })
           .then((json) => {
             console.log(json);
             setLoading(false);
@@ -106,7 +112,7 @@ function DropzoneArea() {
       </Container>
       <aside className="flex flex-row justify-center align-middle p-3">
         {/* <h4>Files</h4> */}
-        <ul>{files}</ul>
+        <ul>{status === `` ? files : status}</ul>
       </aside>
       <div className="flex flex-row justify-center align-middle p-2">
         {loading ? (
