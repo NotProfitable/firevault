@@ -15,7 +15,7 @@ const FileType = require(`file-type`);
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 1000 * 1024 * 1024,
+    fileSize: 5000000,
   },
 });
 
