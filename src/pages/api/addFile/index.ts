@@ -6,7 +6,7 @@ import {
   connectToFileDatabase,
 } from '../../../../middlewares/database';
 import { rollbar } from '../../../../middlewares/rollbar';
-import { cors } from '../../../../middlewares/cors';
+import { corsM } from '../../../../middlewares/cors';
 import { getUID } from '../../../../middlewares/getUID';
 
 const stream = require(`stream`);
@@ -20,7 +20,8 @@ const upload = multer({
 });
 
 const handler = async (req: any, res: any) => {
-  await runMiddleware(req, res, cors);
+  res.header(`Access-Control-Allow-Origin`, `*`);
+  await runMiddleware(req, res, corsM);
   await runMiddleware(req, res, upload.single(`file`));
   let a = ``;
   try {

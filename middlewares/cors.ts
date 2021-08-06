@@ -1,5 +1,3 @@
-import Cors from 'cors'
+const cors = require(`cors`);
 
-export const cors = Cors({
-  methods: ['POST'],
-})
+export const corsM = cors();
