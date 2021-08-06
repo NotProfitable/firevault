@@ -33,7 +33,11 @@ export default function Home() {
   return (
     <div className="h-full min-h-screen bg-white dark:bg-gray-800">
       <PageHead />
-      {process.env.BASE_NAME === `HEROKU` ? <UploadStick /> : returnElement()}
+      {process.env.NEXT_PUBLIC_BASE_NAME === `HEROKU` ? (
+        <UploadStick />
+      ) : (
+        returnElement()
+      )}
     </div>
   );
 }
