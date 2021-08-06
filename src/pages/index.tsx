@@ -3,6 +3,7 @@ import Loading from '@/components/Home/Loading';
 import Landing from '@/components/Home/Landing';
 import HomePage from '@/components/Home/Home';
 import PageHead from '@/components/PageHead';
+import UploadStick from '@/components/UploadStick';
 import fire from '../../utils/firebase';
 
 export default function Home() {
@@ -32,7 +33,7 @@ export default function Home() {
   return (
     <div className="h-full min-h-screen bg-white dark:bg-gray-800">
       <PageHead />
-      {returnElement()}
+      {process.env.BASE_NAME === `HEROKU` ? <UploadStick /> : returnElement()}
     </div>
   );
 }

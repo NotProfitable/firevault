@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import Alert from '@/components/Alert';
 import fire from '../../../../utils/firebase';
-const statusName = require('http-status');
+const statusName = require(`http-status`);
 
 const getColor = (props: {
   isDragAccept: any;
@@ -90,7 +90,7 @@ function DropzoneArea() {
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`/api/addFile`, {
+        fetch(`${process.env.UPLOAD_BASE}/api/addFile`, {
           method: `POST`,
           headers: {
             Authorization: idToken,
