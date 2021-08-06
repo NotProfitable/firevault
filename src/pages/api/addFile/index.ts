@@ -20,7 +20,6 @@ const upload = multer({
 });
 
 const handler = async (req: any, res: any) => {
-  res.header(`Access-Control-Allow-Origin`, `*`);
   await runMiddleware(req, res, cors);
   await runMiddleware(req, res, upload.single(`file`));
   let a = ``;
