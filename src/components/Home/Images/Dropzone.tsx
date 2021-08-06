@@ -90,7 +90,7 @@ function DropzoneArea() {
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`${process.env.UPLOAD_BASE}/api/addFile`, {
+        fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
           method: `POST`,
           headers: {
             Authorization: idToken,
@@ -98,12 +98,13 @@ function DropzoneArea() {
           body: formData,
         })
           .then((res) => {
-            console.log(res.status)
             if (res.status !== 200) {
               setLoading(false);
-              setUploadStatus(`${res.status} - ${statusName[`${res.status}_NAME`]}`);
+              setUploadStatus(
+                `${res.status} - ${statusName[`${res.status}_NAME`]}`,
+              );
               setUploadStatusShown(true);
-              uploadError=true;
+              uploadError = true;
             }
             return res.json();
           })
