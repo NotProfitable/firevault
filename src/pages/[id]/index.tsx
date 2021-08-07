@@ -11,15 +11,12 @@ export default function FilePage() {
   }
 
   return (
-    <div className="w-screen h-screen">
+    <div>
       <Head>
         <title>Firevault Upload</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta property="og:title" content="Firevault Upload" />
-        <meta property="og:image" content={`/api/getFile/${id}`} />
       </Head>
       <div className="m-auto w-screen h-screen flex flex-col justify-between ">
-        <iframe className="m-auto w-full h-full" src={`/api/getFile/${id}`} />
+        <iframe className="m-0 h-screen" src={`/api/getFile/${id}`} />
         <Button
           variant="contained"
           color="primary"
