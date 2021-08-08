@@ -157,7 +157,11 @@ function DropzoneArea() {
 
       <div className="flex flex-row justify-center align-middle p-2">
         <TextField
-          placeholder="File Name (optional)"
+          placeholder={
+            acceptedFiles.length === 1
+              ? acceptedFiles[0].name
+              : `File Name (optional)`
+          }
           variant="outlined"
           InputProps={{
             style: { backgroundColor: `white` },
@@ -165,7 +169,6 @@ function DropzoneArea() {
           value={customName}
           onChange={handleNameChange}
         />
-        <CustomNamePopover />
       </div>
       <div className="flex flex-row justify-center align-middle p-2">
         {loading ? (

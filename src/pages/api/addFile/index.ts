@@ -39,7 +39,6 @@ const handler = async (req: any, res: any) => {
   }
 
   const dataStream = new stream.PassThrough();
-  console.log(req.body.customName);
   const orName =
     req.body.customName !== `` ? req.body.customName : req.file.originalname;
   dataStream.push(req.file.buffer);
