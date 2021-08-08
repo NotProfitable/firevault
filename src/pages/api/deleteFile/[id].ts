@@ -37,7 +37,7 @@ const handler = async (req: any, res: any) => {
   const responseFile = await dbFile.collection(uid as string).deleteOne({
     fileid: new ObjectId(id),
   });
-  if (response.deletedCount === 1 && responseFile.deletedCount === 1) {
+  if (response.deletedCount === 1) {
     res.status(200).json({ error: `Deleted` });
   } else {
     res.status(404).json({ error: `This file does not exist` });

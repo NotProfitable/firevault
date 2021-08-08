@@ -39,7 +39,10 @@ const handler = async (req: any, res: any) => {
   }
 
   const dataStream = new stream.PassThrough();
-  const orName = req.file.originalname;
+  const orName =
+    req.headers.customName !== ``
+      ? req.headers.authorization
+      : req.file.originalname;
   dataStream.push(req.file.buffer);
   dataStream.push(null);
   let infoId;

@@ -2,7 +2,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {useEffect, useState} from 'react';
 import SignedInAppBar from '@/components/SignedInAppBar';
 import AccountImages from '@/components/Home/Images/AccountImages';
-import DropzoneArea from '@/components/Home/Images/Dropzone';
+import DropzoneArea from '@/components/Home/Images/Dropzone/Dropzone';
 import fire from '../../../utils/firebase';
 import PageHead from "@/components/PageHead";
 import Loading from "@/components/Home/Loading";

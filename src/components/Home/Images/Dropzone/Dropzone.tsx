@@ -8,7 +8,9 @@ import {
   Snackbar,
 } from '@material-ui/core';
 import Alert from '@/components/Alert';
-import fire from '../../../../utils/firebase';
+import CustomNamePopover from './CustomNamePopover';
+import fire from '../../../../../utils/firebase';
+
 const statusName = require(`http-status`);
 
 const getColor = (props: {
@@ -44,13 +46,32 @@ const Container = styled.div`
   outline: none;
   transition: border 0.24s ease-in-out;
 `;
+const styles = (theme: any) => ({
+  multilineColor: {
+    color: `red`,
+  },
+});
 
 function DropzoneArea() {
   const [loading, setLoading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState(``);
   const [uploadStatusShown, setUploadStatusShown] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  let uploadError=false;
+  const [customName, setCustomName] = useState(``);
+  let uploadError = false;
+  const styles = (theme: any) => ({
+    textField: {
+      width: `90%`,
+      marginLeft: `auto`,
+      marginRight: `auto`,
+      paddingBottom: 0,
+      marginTop: 0,
+      fontWeight: 500,
+    },
+    input: {
+      color: `white`,
+    },
+  });
   const {
     getRootProps,
     getInputProps,
@@ -76,6 +97,9 @@ function DropzoneArea() {
   const closeStatusSnackbar = () => {
     setUploadStatusShown(false);
   };
+  const handleNameChange = (event: any) => {
+    setCustomName(event.target.value);
+  };
   const uploadFiles = () => {
     if (acceptedFiles.length !== 1) {
       openSnackbar();
@@ -90,10 +114,11 @@ function DropzoneArea() {
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
+        fetch(`/api/addFile`, {
           method: `POST`,
           headers: {
             Authorization: idToken,
+            customName,
           },
           body: formData,
         })
@@ -110,7 +135,7 @@ function DropzoneArea() {
           })
           .then((json) => {
             setLoading(false);
-            if(!uploadError) {
+            if (!uploadError) {
               window.location.reload();
             }
           });
@@ -129,6 +154,19 @@ function DropzoneArea() {
         {/* <h4>Files</h4> */}
         <ul>{status === `` ? files : status}</ul>
       </aside>
+
+      <div className="flex flex-row justify-center align-middle p-2">
+        <TextField
+          placeholder="Custom File Name"
+          variant="outlined"
+          InputProps={{
+            style: { backgroundColor: `white` },
+          }}
+          value={customName}
+          onChange={handleNameChange}
+        />
+        <CustomNamePopover />
+      </div>
       <div className="flex flex-row justify-center align-middle p-2">
         {loading ? (
           <CircularProgress />
