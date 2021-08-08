@@ -124,7 +124,7 @@ function DropzoneArea(props: { reloadData: Function; }) {
               setUploadStatus(
                 `${res.status} - ${statusName[`${res.status}_NAME`]}`,
               );
-              setUploadStatusShown(true);
+              openStatusSnackbar();
               uploadError = true;
             }
             return res.json();

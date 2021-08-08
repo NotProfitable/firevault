@@ -1,6 +1,6 @@
 import { CircularProgress } from '@material-ui/core';
+import ImageTile from '@/components/Home/Images/ImageTile';
 import { FileDocumentMongo } from '../../../../utils/types';
-import ImageTile from "@/components/Home/Images/ImageTile";
 
 export default function AccountImages(props: {
   loading: any;
