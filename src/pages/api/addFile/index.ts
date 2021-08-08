@@ -39,10 +39,9 @@ const handler = async (req: any, res: any) => {
   }
 
   const dataStream = new stream.PassThrough();
+  console.log(req.body.customName);
   const orName =
-    req.headers.customName !== ``
-      ? req.headers.customName
-      : req.file.originalname;
+    req.body.customName !== `` ? req.body.customName : req.file.originalname;
   dataStream.push(req.file.buffer);
   dataStream.push(null);
   let infoId;

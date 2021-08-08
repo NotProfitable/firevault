@@ -109,16 +109,16 @@ function DropzoneArea() {
     const formData = new FormData();
 
     formData.append(`file`, acceptedFiles[0]);
+    formData.append(`customName`, customName);
 
     fire
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`/api/addFile`, {
+        fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
           method: `POST`,
           headers: {
             Authorization: idToken,
-            customName,
           },
           body: formData,
         })
@@ -157,7 +157,7 @@ function DropzoneArea() {
 
       <div className="flex flex-row justify-center align-middle p-2">
         <TextField
-          placeholder="Custom File Name"
+          placeholder="File Name (optional)"
           variant="outlined"
           InputProps={{
             style: { backgroundColor: `white` },
