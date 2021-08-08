@@ -10,6 +10,7 @@ import {
 import Alert from '@/components/Alert';
 import CustomNamePopover from './CustomNamePopover';
 import fire from '../../../../../utils/firebase';
+import {FileDocumentMongo} from "../../../../../utils/types";
 
 const statusName = require(`http-status`);
 
@@ -46,13 +47,8 @@ const Container = styled.div`
   outline: none;
   transition: border 0.24s ease-in-out;
 `;
-const styles = (theme: any) => ({
-  multilineColor: {
-    color: `red`,
-  },
-});
 
-function DropzoneArea() {
+function DropzoneArea(props: { reloadData: Function; }) {
   const [loading, setLoading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState(``);
   const [uploadStatusShown, setUploadStatusShown] = useState(false);
@@ -115,7 +111,7 @@ function DropzoneArea() {
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
+        fetch(`/api/addFile`, {
           method: `POST`,
           headers: {
             Authorization: idToken,
@@ -136,7 +132,7 @@ function DropzoneArea() {
           .then((json) => {
             setLoading(false);
             if (!uploadError) {
-              window.location.reload();
+              props.reloadData();
             }
           });
       });

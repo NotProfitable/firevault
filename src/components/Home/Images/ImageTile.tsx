@@ -7,7 +7,7 @@ import fire from '../../../../utils/firebase';
 
 const statusName = require(`http-status`);
 
-export default function ImageTile(props: { file: FileDocumentMongo }) {
+export default function ImageTile(props: { file: FileDocumentMongo; reloadData: Function; }) {
   const dateAdded: string = new Date(props.file.timestamp).toLocaleString();
   const { name } = props.file;
   const link = `/${fire.auth().currentUser!.uid}${props.file._id}`;
@@ -52,7 +52,7 @@ export default function ImageTile(props: { file: FileDocumentMongo }) {
           .then((json) => {
             setDeleteLoading(false);
             if(!uploadError) {
-              window.location.reload();
+              props.reloadData();
             }
           });
       });
