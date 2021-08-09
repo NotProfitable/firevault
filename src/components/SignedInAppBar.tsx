@@ -69,7 +69,7 @@ export default function SignedInAppBar(props: { reloadData: Function; }) {
             </Typography>
           </a>
           <div className="flex flex-row justify-center items-center h-full">
-            <IconButton onClick={props.reloadData()}>
+            <IconButton onClick={() => props.reloadData()}>
               <AutorenewIcon fontSize="large" className="text-white" />
             </IconButton>
             <Avatar onClick={handleProfileMenuOpen} src={photoURL as string} />

@@ -42,11 +42,12 @@ export default function HomePage() {
         })
           .then((res) => res.json())
           .then((json) => {
+
             if (!mounted) {
               setLoading(false);
-              mounted = true;
             }
             setData(json);
+            mounted = true;
           });
       });
   };
