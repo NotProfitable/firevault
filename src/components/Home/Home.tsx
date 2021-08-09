@@ -8,6 +8,7 @@ import Loading from '@/components/Home/Loading';
 import CachedIcon from '@material-ui/icons/Cached';
 import Fab from '@material-ui/core/Fab';
 import fire from '../../../utils/firebase';
+import Footer from "@/components/Home/Footer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +64,7 @@ export default function HomePage() {
   const name = fire.auth().currentUser!.displayName;
 
   return (
-    <div>
+    <div className="flex flex-col justify-center text-center items-center">
       <PageHead />
       {loading ? (
         <Loading />
@@ -83,6 +84,7 @@ export default function HomePage() {
           </div>
         </>
       )}
+      <Footer />
     </div>
   );
 }
