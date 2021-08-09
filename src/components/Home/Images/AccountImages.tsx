@@ -8,8 +8,13 @@ export default function AccountImages(props: {
   reloadData: Function;
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2">
+    <div className="flex align-middle justify-center flex-wrap max-w-screen-lg mt-3">
       {props.loading ? <CircularProgress /> : <></>}
+      {props.data.length === 0 ? (
+        <p className="text-gray-400 text-2xl">No files</p>
+      ) : (
+        <></>
+      )}
       {props.data.map((item, index) => {
         // eslint-disable-next-line no-underscore-dangle
         return (

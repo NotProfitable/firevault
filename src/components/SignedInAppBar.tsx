@@ -5,8 +5,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import { IconButton } from "@material-ui/core";
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 import { makeStyles } from '@material-ui/core/styles';
 import fire from '../../utils/firebase';
+import {FileDocumentMongo} from "../../utils/types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignedInAppBar() {
+export default function SignedInAppBar(props: { reloadData: Function; }) {
   const classes = useStyles();
   const photoURL = fire.auth()?.currentUser?.photoURL;
   const name = fire.auth().currentUser!.displayName;
@@ -65,7 +68,12 @@ export default function SignedInAppBar() {
               Firevault | Dashboard
             </Typography>
           </a>
-          <Avatar onClick={handleProfileMenuOpen} src={photoURL as string} />
+          <div className="flex flex-row justify-center items-center h-full">
+            <IconButton onClick={props.reloadData()}>
+              <AutorenewIcon fontSize="large" className="text-white" />
+            </IconButton>
+            <Avatar onClick={handleProfileMenuOpen} src={photoURL as string} />
+          </div>
         </Toolbar>
       </AppBar>
       {renderMenu}

@@ -111,7 +111,7 @@ function DropzoneArea(props: { reloadData: Function; }) {
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`/api/addFile`, {
+        fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
           method: `POST`,
           headers: {
             Authorization: idToken,
@@ -153,6 +153,7 @@ function DropzoneArea(props: { reloadData: Function; }) {
 
       <div className="flex flex-row justify-center align-middle p-2">
         <TextField
+          className="w-full"
           placeholder={
             acceptedFiles.length === 1
               ? acceptedFiles[0].name
@@ -165,15 +166,15 @@ function DropzoneArea(props: { reloadData: Function; }) {
           value={customName}
           onChange={handleNameChange}
         />
-      </div>
-      <div className="flex flex-row justify-center align-middle p-2">
-        {loading ? (
-          <CircularProgress />
-        ) : (
+
           <Button onClick={uploadFiles} variant="contained" color="primary">
-            Upload
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              `Upload`
+            )}
           </Button>
-        )}
+
       </div>
       <Snackbar
         anchorOrigin={{
