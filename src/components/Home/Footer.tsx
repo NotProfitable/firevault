@@ -32,7 +32,7 @@ export default function Footer() {
     </div>
   );
   return (
-    <footer className="flex flex-row justify-center m-3 bottom-0 text-center p-0 m-0 w-64">
+    <footer className="flex flex-row justify-center m-3 relative bottom-0 text-center p-0 m-0 w-1/2">
       {release}
     </footer>
   );

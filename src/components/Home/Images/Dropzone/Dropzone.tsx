@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import {
-  Button,
-  CircularProgress,
-  TextField,
-  Snackbar,
-} from '@material-ui/core';
+import { Button, Snackbar, TextField, LinearProgress } from '@material-ui/core';
 import Alert from '@/components/Alert';
-import CustomNamePopover from './CustomNamePopover';
 import fire from '../../../../../utils/firebase';
-import {FileDocumentMongo} from "../../../../../utils/types";
 
 const statusName = require(`http-status`);
 
@@ -48,7 +41,7 @@ const Container = styled.div`
   transition: border 0.24s ease-in-out;
 `;
 
-function DropzoneArea(props: { reloadData: Function; }) {
+function DropzoneArea(props: { reloadData: Function }) {
   const [loading, setLoading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState(``);
   const [uploadStatusShown, setUploadStatusShown] = useState(false);
@@ -111,7 +104,7 @@ function DropzoneArea(props: { reloadData: Function; }) {
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
+        fetch(`/api/addFile`, {
           method: `POST`,
           headers: {
             Authorization: idToken,
@@ -167,15 +160,15 @@ function DropzoneArea(props: { reloadData: Function; }) {
           onChange={handleNameChange}
         />
 
-          <Button onClick={uploadFiles} variant="contained" color="primary">
-            {loading ? (
-              <CircularProgress />
-            ) : (
-              `Upload`
-            )}
-          </Button>
-
+        <Button
+          onClick={uploadFiles}
+          variant="contained"
+          color="primary"
+        >
+          Upload
+        </Button>
       </div>
+      {loading ? <LinearProgress /> : <div className="h-1" />}
       <Snackbar
         anchorOrigin={{
           vertical: `bottom`,
