@@ -131,7 +131,7 @@ function DropzoneArea(props: { reloadData: Function }) {
       });
   };
   return (
-    <div className="container w-72 sm-w-96">
+    <div className="container w-72 sm:w-96">
       <Container
         {...getRootProps({ isDragActive, isDragAccept, isDragReject })}
         className="bg-gray-100 border-gray-400 dark:bg-gray-600"
@@ -147,7 +147,11 @@ function DropzoneArea(props: { reloadData: Function }) {
       <div className="flex flex-row justify-center align-middle p-2">
         <TextField
           className="w-full"
-          onFocusCapture={() => setCustomName(acceptedFiles[0].name)}
+          onFocusCapture={() => {
+            if (customName === ``) {
+              setCustomName(acceptedFiles[0].name);
+            }
+          }}
           placeholder={
             acceptedFiles.length === 1
               ? acceptedFiles[0].name
