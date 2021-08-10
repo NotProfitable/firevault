@@ -15,7 +15,7 @@ export default function FilePage() {
       <Head>
         <title>Firevault Upload</title>
       </Head>
-      <div className="m-auto w-screen h-screen flex flex-col justify-between ">
+      <div className="m-auto w-screen h-screen flex flex-col justify-between dark:bg-black">
         <iframe className="m-0 h-screen" src={`/api/getFile/${id}`} />
         <Button
           variant="contained"

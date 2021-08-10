@@ -59,7 +59,7 @@ export default function ImageTile(props: { file: FileDocumentMongo; reloadData: 
   };
 
   return (
-    <figure className="m-2 w-72 md:w-96 md:flex transition duration-500 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-xl md:hover:shadow-lg m-4">
+    <figure className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4">
       <div className="w-full p-1 w-3/4 text-left m-0 md:p-6  text-center md:text-left space-y-4 break-all flex flex-col justify-between">
         <blockquote>
           <p className="text-lg font-semibold">{name}</p>

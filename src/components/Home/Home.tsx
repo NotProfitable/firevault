@@ -81,10 +81,10 @@ export default function HomePage() {
                 data={data}
               />
             </main>
+            <Footer />
           </div>
         </>
       )}
-      <Footer />
     </div>
   );
 }

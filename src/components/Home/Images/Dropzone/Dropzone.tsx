@@ -99,7 +99,7 @@ function DropzoneArea(props: { reloadData: Function }) {
 
     formData.append(`file`, acceptedFiles[0]);
     formData.append(`customName`, customName);
-
+    console.log(process.env.NEXT_PUBLIC_UPLOAD_BASE)
     fire
       .auth()
       .currentUser?.getIdToken(false)
@@ -148,7 +148,7 @@ function DropzoneArea(props: { reloadData: Function }) {
         <TextField
           className="w-full"
           onFocusCapture={() => {
-            if (customName === ``) {
+            if (customName === `` && acceptedFiles.length > 0) {
               setCustomName(acceptedFiles[0].name);
             }
           }}
