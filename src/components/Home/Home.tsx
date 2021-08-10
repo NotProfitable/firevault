@@ -7,8 +7,8 @@ import PageHead from '@/components/PageHead';
 import Loading from '@/components/Home/Loading';
 import CachedIcon from '@material-ui/icons/Cached';
 import Fab from '@material-ui/core/Fab';
+import Footer from '@/components/Home/Footer';
 import fire from '../../../utils/firebase';
-import Footer from "@/components/Home/Footer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +43,6 @@ export default function HomePage() {
         })
           .then((res) => res.json())
           .then((json) => {
-
             if (!mounted) {
               setLoading(false);
             }
@@ -51,6 +50,12 @@ export default function HomePage() {
             mounted = true;
           });
       });
+  };
+
+  const rmItem = (dataIndex: number) => {
+    let t = data;
+    t.splice(dataIndex, 1);
+    setData(t);
   };
 
   useEffect(() => {
@@ -77,6 +82,7 @@ export default function HomePage() {
               <DropzoneArea reloadData={loadData} />
               <AccountImages
                 reloadData={loadData}
+                deleteDataElement={rmItem}
                 loading={loading}
                 data={data}
               />

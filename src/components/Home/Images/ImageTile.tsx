@@ -7,7 +7,12 @@ import fire from '../../../../utils/firebase';
 
 const statusName = require(`http-status`);
 
-export default function ImageTile(props: { file: FileDocumentMongo; reloadData: Function; }) {
+export default function ImageTile(props: {
+  file: FileDocumentMongo;
+  reloadData: Function;
+  deleteDataElement: Function;
+  index: number;
+}) {
   const dateAdded: string = new Date(props.file.timestamp).toLocaleString();
   const { name } = props.file;
   const link = `/${fire.auth().currentUser!.uid}${props.file._id}`;
@@ -16,8 +21,6 @@ export default function ImageTile(props: { file: FileDocumentMongo; reloadData: 
   }`;
   const { size } = props.file;
   let uploadError = false;
-
-  const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteStatus, setDeleteStatus] = useState(``);
   const [deleteStatusShown, setDeleteStatusShown] = useState(false);
   const openStatusSnackbar = () => {
@@ -27,7 +30,7 @@ export default function ImageTile(props: { file: FileDocumentMongo; reloadData: 
     setDeleteStatusShown(false);
   };
   const deleteFile = () => {
-    setDeleteLoading(true);
+    props.deleteDataElement(props.index);
     fire
       .auth()
       .currentUser?.getIdToken(false)
@@ -40,7 +43,6 @@ export default function ImageTile(props: { file: FileDocumentMongo; reloadData: 
         })
           .then((res) => {
             if (res.status !== 200) {
-              setDeleteLoading(false);
               setDeleteStatus(
                 `${res.status} - ${statusName[`${res.status}_NAME`]}`,
               );
@@ -50,8 +52,7 @@ export default function ImageTile(props: { file: FileDocumentMongo; reloadData: 
             return res.json();
           })
           .then((json) => {
-            setDeleteLoading(false);
-            if(!uploadError) {
+            if (!uploadError) {
               props.reloadData();
             }
           });
@@ -82,7 +83,7 @@ export default function ImageTile(props: { file: FileDocumentMongo; reloadData: 
             aria-label="upload picture"
             component="span"
           >
-            {deleteLoading ? <CircularProgress /> : <DeleteIcon />}
+            <DeleteIcon />
           </IconButton>
         </figcaption>
       </div>

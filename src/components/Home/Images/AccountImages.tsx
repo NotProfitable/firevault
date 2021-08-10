@@ -6,6 +6,7 @@ export default function AccountImages(props: {
   loading: any;
   data: Array<FileDocumentMongo>;
   reloadData: Function;
+  deleteDataElement: Function;
 }) {
   return (
     <div className="flex align-middle justify-center flex-wrap max-w-screen-lg mt-3">
@@ -18,7 +19,13 @@ export default function AccountImages(props: {
       {props.data.map((item, index) => {
         // eslint-disable-next-line no-underscore-dangle
         return (
-          <ImageTile reloadData={props.reloadData} file={item} key={item._id} />
+          <ImageTile
+            index={index}
+            reloadData={props.reloadData}
+            deleteDataElement={props.deleteDataElement}
+            file={item}
+            key={item._id}
+          />
         );
       })}
     </div>

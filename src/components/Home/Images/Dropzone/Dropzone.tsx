@@ -99,7 +99,6 @@ function DropzoneArea(props: { reloadData: Function }) {
 
     formData.append(`file`, acceptedFiles[0]);
     formData.append(`customName`, customName);
-    console.log(process.env.NEXT_PUBLIC_UPLOAD_BASE)
     fire
       .auth()
       .currentUser?.getIdToken(false)
