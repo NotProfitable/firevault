@@ -2,8 +2,9 @@ import { CircularProgress, IconButton, Snackbar } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useState } from 'react';
 import Alert from '@/components/Alert';
-import { FileDocumentMongo } from '../../../../utils/types';
-import fire from '../../../../utils/firebase';
+import OptionDialog from './OptionDialog';
+import { FileDocumentMongo } from '../../../../../utils/types';
+import fire from '../../../../../utils/firebase';
 
 const statusName = require(`http-status`);
 
@@ -85,6 +86,12 @@ export default function ImageTile(props: {
           >
             <DeleteIcon />
           </IconButton>
+          <OptionDialog
+            index={props.index}
+            reloadData={props.reloadData}
+            deleteDataElement={props.deleteDataElement}
+            file={props.file}
+          />
         </figcaption>
       </div>
       <Snackbar
