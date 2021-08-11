@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   createStyles,
   Theme,
@@ -15,9 +15,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-import {FileDocumentMongo} from "../../../../../utils/types";
-import fire from "../../../../../utils/firebase";
-import {TextField} from "@material-ui/core";
+import { TextField } from '@material-ui/core';
+import { FileDocumentMongo } from '../../../../../utils/types';
+import fire from '../../../../../utils/firebase';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -75,14 +75,12 @@ export default function CustomizedDialogs(props: {
   reloadData: Function;
   deleteDataElement: Function;
   index: number;
+  dialogOpen: boolean;
+  setDialogClose: Function;
 }) {
   const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
-    setOpen(false);
+    props.setDialogClose();
   };
   const dateAdded: string = new Date(props.file.timestamp).toLocaleString();
   const { name } = props.file;
@@ -96,12 +94,28 @@ export default function CustomizedDialogs(props: {
   const handleNameChange = (event: any) => {
     setCustomName(event.target.value);
   };
+  const updateName = () => {
+    fire
+      .auth()
+      .currentUser?.getIdToken(false)
+      .then((idToken) => {
+        fetch(`/api/updateName/${props.file._id}`, {
+          method: `POST`,
+          headers: {
+            Authorization: idToken,
+          },
+          body: customName,
+        })
+          .then((res) => res.json())
+          .then((json) => {});
+      });
+  };
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
-      <Dialog onClose={handleClose} open={open}>
+      <Dialog
+        onClose={handleClose}
+        open={props.dialogOpen}
+      >
         <DialogTitle
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
@@ -147,7 +161,10 @@ export default function CustomizedDialogs(props: {
           <Button
             startIcon={<DeleteIcon />}
             autoFocus
-            onClick={handleClose}
+            onClick={() => {
+              props.deleteDataElement();
+              handleClose();
+            }}
             color="secondary"
             variant="contained"
           >
@@ -156,7 +173,10 @@ export default function CustomizedDialogs(props: {
           <Button
             startIcon={<SaveIcon />}
             autoFocus
-            onClick={handleClose}
+            onClick={() => {
+              updateName();
+              props.reloadData();
+            }}
             color="primary"
             variant="contained"
           >

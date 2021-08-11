@@ -24,6 +24,7 @@ export default function ImageTile(props: {
   let uploadError = false;
   const [deleteStatus, setDeleteStatus] = useState(``);
   const [deleteStatusShown, setDeleteStatusShown] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const openStatusSnackbar = () => {
     setDeleteStatusShown(true);
   };
@@ -59,9 +60,12 @@ export default function ImageTile(props: {
           });
       });
   };
+  const setStateDialogOpenClose = () => {
+    setDialogOpen(false);
+  };
 
   return (
-    <figure className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4">
+    <figure onClick={() => setDialogOpen(true)} className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4 cursor-pointer">
       <div className="w-full p-1 w-3/4 text-left m-0 md:p-6  text-center md:text-left space-y-4 break-all flex flex-col justify-between">
         <blockquote>
           <p className="text-lg font-semibold">{name}</p>
@@ -89,8 +93,10 @@ export default function ImageTile(props: {
           <OptionDialog
             index={props.index}
             reloadData={props.reloadData}
-            deleteDataElement={props.deleteDataElement}
+            deleteDataElement={deleteFile}
             file={props.file}
+            dialogOpen={dialogOpen}
+            setDialogClose={setStateDialogOpenClose}
           />
         </figcaption>
       </div>

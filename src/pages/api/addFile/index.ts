@@ -63,7 +63,6 @@ const handler = async (req: any, res: any) => {
         {
           fileid: infoId,
           buffer: req.file.buffer,
-          name: orName,
         },
         // eslint-disable-next-line no-shadow
         async (err: any, docsInserted: { insertedId: any }) => {
