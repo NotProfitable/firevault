@@ -28,7 +28,7 @@ export default function Footer() {
   }, []);
   const release = (
     <div className="flex flex-row justify-center items-center p-0 m-0">
-      <p className="text-white p-0 m-0"> {releaseInfo[0]?.name} - Updated {new Date(releaseInfo[0].created_at).toLocaleDateString()}</p>
+      <p className="text-white p-0 m-0"> {releaseInfo[0]?.name} - Updated {new Date(releaseInfo[0]?.created_at).toLocaleDateString()}</p>
     </div>
   );
   return (
