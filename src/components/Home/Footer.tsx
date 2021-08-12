@@ -2,9 +2,7 @@ import { LinearProgress } from '@material-ui/core';
 import { useState, useEffect } from 'react';
 import { GHRelease } from '../../../utils/types';
 
-export default function Footer(props: {
-  dataUsage: number;
-}) {
+export default function Footer(props: { dataUsage: number }) {
   const [releaseInfo, setReleaseInfo] = useState<Array<GHRelease>>([]);
 
   const [loading, setLoading] = useState(true);
@@ -31,7 +29,7 @@ export default function Footer(props: {
   const release = (
     <div className="flex flex-col justify-center items-center text-white">
       <p>
-        Total usage: {Math.round((props.dataUsage / 10 ** 6) * 10) / 10} mb
+        Total usage: {Math.round((props.dataUsage / 10 ** 6) * 100) / 100} mb
       </p>
       <p> {releaseInfo[0]?.name} - Updated {new Date(releaseInfo[0]?.created_at).toLocaleDateString()}</p>
     </div>

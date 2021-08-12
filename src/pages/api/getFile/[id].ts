@@ -6,6 +6,7 @@ import {
 } from '../../../../middlewares/database';
 import { cors } from '../../../../middlewares/cors';
 import { FileDocumentMongo } from '../../../../utils/types';
+import {rollbar} from "../../../../middlewares/rollbar";
 
 const stream = require(`stream`);
 const FileType = require(`file-type`);
@@ -30,10 +31,14 @@ const handler = async (req: any, res: any) => {
     });
   if (response) {
     const ftype = await FileType.fromBuffer(response.buffer.buffer);
-    if (ftype.mime) {
+    try {
       res.setHeader(`Content-Type`, ftype.mime);
+      res.send(response.buffer.buffer);
     }
-    res.send(response.buffer.buffer);
+    catch (e) {
+      rollbar.error(`mime error`);
+      res.send(response.buffer.toString());
+    }
   } else {
     res.send(`This file does not exist`);
   }
