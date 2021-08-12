@@ -1,19 +1,18 @@
 import {
+  Button, CircularProgress,
   Dialog,
-  IconButton,
-  Snackbar,
-  Button,
-  DialogTitle,
+  DialogActions,
   DialogContent,
-  Typography,
+  DialogTitle,
+  Snackbar,
   TextField,
-  DialogActions
+  Typography,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Alert from '@/components/Alert';
-import { FileDocumentMongo } from '../../../../../utils/types';
+import {FileDocumentMongo} from '../../../../../utils/types';
 import fire from '../../../../../utils/firebase';
 
 const statusName = require(`http-status`);
@@ -25,12 +24,12 @@ export default function ImageTile(props: {
   index: number;
 }) {
   const dateAdded: string = new Date(props.file.timestamp).toLocaleString();
-  const { name } = props.file;
+  const {name} = props.file;
   const link = `/${fire.auth().currentUser!.uid}${props.file._id}`;
   const rawLink = `/api/getFile/${fire.auth().currentUser!.uid}${
     props.file._id
   }`;
-  const { size } = props.file;
+  const {size} = props.file;
   let uploadError = false;
   const [deleteStatus, setDeleteStatus] = useState(``);
   const [deleteStatusShown, setDeleteStatusShown] = useState(false);
@@ -39,35 +38,6 @@ export default function ImageTile(props: {
   };
   const closeStatusSnackbar = () => {
     setDeleteStatusShown(false);
-  };
-  const deleteFile = () => {
-    props.deleteDataElement(props.index);
-    fire
-      .auth()
-      .currentUser?.getIdToken(false)
-      .then((idToken) => {
-        fetch(`/api/deleteFile/${props.file._id}`, {
-          method: `POST`,
-          headers: {
-            Authorization: idToken,
-          },
-        })
-          .then((res) => {
-            if (res.status !== 200) {
-              setDeleteStatus(
-                `${res.status} - ${statusName[`${res.status}_NAME`]}`,
-              );
-              openStatusSnackbar();
-              uploadError = true;
-            }
-            return res.json();
-          })
-          .then((json) => {
-            if (!uploadError) {
-              props.reloadData();
-            }
-          });
-      });
   };
   const [dialogOpen, setDialogOpen] = useState(false);
   const openDialog = () => {
@@ -81,7 +51,20 @@ export default function ImageTile(props: {
   const handleNameChange = (event: any) => {
     setCustomName(event.target.value);
   };
+  const [updateNameLoading, setUpdateNameLoading] = useState(false);
+  const [updateNameSnackbar, setUpdateNameSnackbar] = useState(false);
+  const closeUpdateNameSnackbar = () => {
+    setUpdateNameSnackbar(false);
+  };
+
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteSnackbar, setDeleteSnackbar] = useState(false);
+  const closeDeleteSnackbar = () => {
+    setDeleteSnackbar(false);
+  };
+
   const updateName = () => {
+    setUpdateNameLoading(true);
     fire
       .auth()
       .currentUser?.getIdToken(false)
@@ -93,15 +76,58 @@ export default function ImageTile(props: {
           },
           body: customName,
         })
-          .then((res) => res.json())
+          .then((res) => {
+            if (res.status !== 200) {
+              setUpdateNameLoading(false);
+              setUpdateNameSnackbar(true);
+            }
+            return res.json();
+          })
           .then((json) => {
+            setUpdateNameLoading(false);
             props.reloadData();
           });
       });
   };
+
+  const deleteFile = () => {
+    setDeleteLoading(true);
+    props.deleteDataElement(props.index);
+    fire
+      .auth()
+      .currentUser?.getIdToken(false)
+      .then((idToken) => {
+        fetch(`/api/deleteFile/${props.file._id}`, {
+          method: `POST`,
+          headers: {
+            Authorization: idToken,
+          },
+        })
+          .then((res) => {
+            if (res.status !== 200) {
+              setDeleteLoading(false);
+              setDeleteStatus(
+                `${res.status} - ${statusName[`${res.status}_NAME`]}`,
+              );
+              openStatusSnackbar();
+              uploadError = true;
+            }
+            return res.json();
+          })
+          .then((json) => {
+            setDeleteLoading(false);
+            if (!uploadError) {
+              props.reloadData();
+            }
+          });
+      });
+  };
+
   return (
-    <div  className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4">
-      <div className="w-full p-1 w-3/4 text-left m-0 md:p-6  text-center md:text-left space-y-4 break-all flex flex-col justify-between">
+    <div
+      className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4">
+      <div
+        className="w-full p-1 w-3/4 text-left m-0 md:p-6  text-center md:text-left space-y-4 break-all flex flex-col justify-between">
         <blockquote>
           <p className="text-lg font-semibold">{name}</p>
         </blockquote>
@@ -117,15 +143,17 @@ export default function ImageTile(props: {
               Raw File
             </a>
           </div>
-          {/*<IconButton*/}
-          {/*  onClick={deleteFile}*/}
-          {/*  color="secondary"*/}
-          {/*  aria-label="upload picture"*/}
-          {/*  component="span"*/}
-          {/*>*/}
-          {/*  <DeleteIcon />*/}
-          {/*</IconButton>*/}
-          <Button onClick={openDialog} variant="contained">Show Options</Button>
+          {/* <IconButton */}
+          {/*  onClick={deleteFile} */}
+          {/*  color="secondary" */}
+          {/*  aria-label="upload picture" */}
+          {/*  component="span" */}
+          {/* > */}
+          {/*  <DeleteIcon /> */}
+          {/* </IconButton> */}
+          <Button onClick={openDialog} variant="contained">
+            Show Options
+          </Button>
         </figcaption>
       </div>
       <Snackbar
@@ -149,12 +177,9 @@ export default function ImageTile(props: {
               className="w-full"
               variant="outlined"
               InputProps={{
-                style: { backgroundColor: `white` },
+                style: {backgroundColor: `white`},
               }}
-              onFocusCapture={() => {
-                setCustomName(name);
-              }}
-              placeholder="File Name (optional)"
+              placeholder="Update file name"
               value={customName}
               onChange={handleNameChange}
             />
@@ -178,15 +203,15 @@ export default function ImageTile(props: {
         <DialogActions className="dark:bg-gray-700 dark:text-white flex flex-row justify-between">
           <Button
             startIcon={<DeleteIcon />}
-
             onClick={() => {
               deleteFile();
             }}
             color="secondary"
             variant="contained"
           >
-            Delete File
+            {deleteLoading ? <CircularProgress /> : `Delete File`}
           </Button>
+
           <Button
             startIcon={<SaveIcon />}
             onClick={() => {
@@ -195,11 +220,33 @@ export default function ImageTile(props: {
             color="primary"
             variant="contained"
           >
-            Save changes
+            {updateNameLoading ? <CircularProgress /> : `Save changes`}
           </Button>
         </DialogActions>
         <Button onClick={closeDialog}>Close</Button>
       </Dialog>
+      <Snackbar
+        anchorOrigin={{
+          vertical: `bottom`,
+          horizontal: `left`,
+        }}
+        open={updateNameSnackbar}
+        autoHideDuration={5000}
+        onClose={closeUpdateNameSnackbar}
+      >
+        <Alert severity="error">Error: Could not update name.</Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{
+          vertical: `bottom`,
+          horizontal: `left`,
+        }}
+        open={deleteSnackbar}
+        autoHideDuration={5000}
+        onClose={closeDeleteSnackbar}
+      >
+        <Alert severity="error">{deleteStatus}</Alert>
+      </Snackbar>
     </div>
   );
 }
