@@ -9,6 +9,7 @@ import CachedIcon from '@material-ui/icons/Cached';
 import Fab from '@material-ui/core/Fab';
 import Footer from '@/components/Home/Footer';
 import fire from '../../../utils/firebase';
+import { FileDocumentMongo } from "../../../utils/types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   let mounted = false;
+  const [totalData, setTotalData] = useState(0);
 
   const wakeUp = () => {
     fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}`, { method: `GET` });
@@ -48,6 +50,11 @@ export default function HomePage() {
             }
             setData(json);
             mounted = true;
+            let total = 0;
+            json.map((index: FileDocumentMongo) => {
+              total += index.size;
+            });
+            setTotalData(total);
           });
       });
   };
@@ -87,7 +94,7 @@ export default function HomePage() {
                 data={data}
               />
             </main>
-            <Footer />
+            <Footer dataUsage={totalData} />
           </div>
         </>
       )}
