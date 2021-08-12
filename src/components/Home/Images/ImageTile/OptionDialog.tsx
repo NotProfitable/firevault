@@ -112,21 +112,18 @@ export default function CustomizedDialogs(props: {
   };
   return (
     <div>
-      <Dialog
-        onClose={handleClose}
-        open={props.dialogOpen}
-      >
+      <Dialog onClose={handleClose} onBackdropClick={() => handleClose} open={props.dialogOpen}>
         <DialogTitle
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           className="dark:bg-gray-700 dark:text-white"
           id="customized-dialog-title"
-          onClose={handleClose}
+          onClose={() => handleClose()}
         >
           {props.file.name}
         </DialogTitle>
         <DialogContent dividers className="dark:bg-gray-700 dark:text-white">
-          <Typography gutterBottom>
+          <Typography component="div" gutterBottom>
             <TextField
               className="w-full"
               variant="outlined"
@@ -141,11 +138,11 @@ export default function CustomizedDialogs(props: {
               onChange={handleNameChange}
             />
           </Typography>
-          <Typography gutterBottom>
+          <Typography component="div" gutterBottom>
             <div className="text-cyan-600">{dateAdded}</div>
             <div className="text-cyan-600">{size} bytes</div>
           </Typography>
-          <Typography gutterBottom>
+          <Typography component="div" gutterBottom>
             <div className="flex flex-row justify-center md:justify-start">
               <a href={link} className="text-blue-500 mr-3">
                 Link
@@ -160,7 +157,7 @@ export default function CustomizedDialogs(props: {
         <DialogActions className="dark:bg-gray-700 dark:text-white">
           <Button
             startIcon={<DeleteIcon />}
-            autoFocus
+
             onClick={() => {
               props.deleteDataElement();
               handleClose();
@@ -172,7 +169,7 @@ export default function CustomizedDialogs(props: {
           </Button>
           <Button
             startIcon={<SaveIcon />}
-            autoFocus
+
             onClick={() => {
               updateName();
               props.reloadData();

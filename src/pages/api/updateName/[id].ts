@@ -37,7 +37,7 @@ const handler = async (req: any, res: any) => {
     },
     updateDoc,
   );
-  if (response.modifiedCount === 1) {
+  if (response.matchedCount === 1) {
     res.status(200).json({});
   } else {
     res.status(404).json({error: `This file does not exist`});

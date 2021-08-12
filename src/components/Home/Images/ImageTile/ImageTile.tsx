@@ -90,14 +90,7 @@ export default function ImageTile(props: {
           >
             <DeleteIcon />
           </IconButton>
-          <OptionDialog
-            index={props.index}
-            reloadData={props.reloadData}
-            deleteDataElement={deleteFile}
-            file={props.file}
-            dialogOpen={dialogOpen}
-            setDialogClose={setStateDialogOpenClose}
-          />
+
         </figcaption>
       </div>
       <Snackbar
@@ -111,6 +104,14 @@ export default function ImageTile(props: {
       >
         <Alert severity="error">{deleteStatus}.</Alert>
       </Snackbar>
+      <OptionDialog
+        index={props.index}
+        reloadData={props.reloadData}
+        deleteDataElement={deleteFile}
+        file={props.file}
+        dialogOpen={dialogOpen}
+        setDialogClose={setStateDialogOpenClose}
+      />
     </figure>
   );
 }
