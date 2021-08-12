@@ -1,18 +1,21 @@
 import {
-  Button, CircularProgress,
+  Button,
+  CircularProgress,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
   Snackbar,
   TextField,
   Typography,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-import React, {useState} from 'react';
+import SettingsIcon from '@material-ui/icons/Settings';
+import CloseIcon from '@material-ui/icons/Close';
+import React, { useState } from 'react';
 import Alert from '@/components/Alert';
-import {FileDocumentMongo} from '../../../../../utils/types';
+import { FileDocumentMongo } from '../../../../../utils/types';
 import fire from '../../../../../utils/firebase';
 
 const statusName = require(`http-status`);
@@ -24,12 +27,12 @@ export default function ImageTile(props: {
   index: number;
 }) {
   const dateAdded: string = new Date(props.file.timestamp).toLocaleString();
-  const {name} = props.file;
+  const { name } = props.file;
   const link = `/${fire.auth().currentUser!.uid}${props.file._id}`;
   const rawLink = `/api/getFile/${fire.auth().currentUser!.uid}${
     props.file._id
   }`;
-  const {size} = props.file;
+  const { size } = props.file;
   let uploadError = false;
   const [deleteStatus, setDeleteStatus] = useState(``);
   const [deleteStatusShown, setDeleteStatusShown] = useState(false);
@@ -131,8 +134,15 @@ export default function ImageTile(props: {
       className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4">
       <div
         className="w-full p-1 w-3/4 text-left m-0 md:p-6  text-center md:text-left space-y-4 break-all flex flex-col justify-between">
-        <blockquote>
+        <blockquote className="w-full flex flex-row items-start justify-between">
           <p className="text-lg font-semibold">{name}</p>
+          <IconButton
+            className="p-0 m-0"
+            onClick={openDialog}
+            component="span"
+          >
+            <SettingsIcon className="text-black dark:text-white"/>
+          </IconButton>
         </blockquote>
         <figcaption className="font-medium">
           <div className="text-cyan-600">{dateAdded}</div>
@@ -146,17 +156,6 @@ export default function ImageTile(props: {
               Raw File
             </a>
           </div>
-          {/* <IconButton */}
-          {/*  onClick={deleteFile} */}
-          {/*  color="secondary" */}
-          {/*  aria-label="upload picture" */}
-          {/*  component="span" */}
-          {/* > */}
-          {/*  <DeleteIcon /> */}
-          {/* </IconButton> */}
-          <Button onClick={openDialog} variant="contained">
-            Show Options
-          </Button>
         </figcaption>
       </div>
       <Snackbar
@@ -172,7 +171,16 @@ export default function ImageTile(props: {
       </Snackbar>
       <Dialog open={dialogOpen} onClose={closeDialog}>
         <DialogTitle className="dark:bg-gray-700 dark:text-white w-auto break-all">
-          {updateNameLoading ? <CircularProgress/> : props.file.name}
+          <blockquote className="w-full flex flex-row items-start justify-between">
+            {updateNameLoading ? <CircularProgress /> : props.file.name}
+            <IconButton
+              className="p-0 m-0"
+              onClick={closeDialog}
+              component="span"
+            >
+              <CloseIcon className="text-black dark:text-white"/>
+            </IconButton>
+          </blockquote>
         </DialogTitle>
         <DialogContent dividers className="dark:bg-gray-700 dark:text-white">
           <Typography component="div" gutterBottom>
@@ -180,7 +188,7 @@ export default function ImageTile(props: {
               className="w-full"
               variant="outlined"
               InputProps={{
-                style: {backgroundColor: `white`},
+                style: { backgroundColor: `white` },
               }}
               placeholder="Update file name"
               value={customName}
@@ -203,7 +211,7 @@ export default function ImageTile(props: {
             </div>
           </Typography>
         </DialogContent>
-        <DialogActions className="dark:bg-gray-700 dark:text-white flex flex-row justify-between">
+        <div className="dark:bg-gray-700 dark:text-white flex flex-row justify-evenly p-2">
           <Button
             startIcon={<DeleteIcon />}
             onClick={() => {
@@ -226,8 +234,7 @@ export default function ImageTile(props: {
           >
             Save changes
           </Button>
-        </DialogActions>
-        <Button onClick={closeDialog}>Close</Button>
+        </div>
       </Dialog>
       <Snackbar
         anchorOrigin={{
