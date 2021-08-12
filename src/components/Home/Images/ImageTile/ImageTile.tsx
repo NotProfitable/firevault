@@ -64,6 +64,9 @@ export default function ImageTile(props: {
   };
 
   const updateName = () => {
+    if (customName === ``) {
+      return;
+    }
     setUpdateNameLoading(true);
     fire
       .auth()
@@ -169,7 +172,7 @@ export default function ImageTile(props: {
       </Snackbar>
       <Dialog open={dialogOpen} onClose={closeDialog}>
         <DialogTitle className="dark:bg-gray-700 dark:text-white w-auto break-all">
-          {props.file.name}
+          {updateNameLoading ? <CircularProgress/> : props.file.name}
         </DialogTitle>
         <DialogContent dividers className="dark:bg-gray-700 dark:text-white">
           <Typography component="div" gutterBottom>
@@ -219,8 +222,9 @@ export default function ImageTile(props: {
             }}
             color="primary"
             variant="contained"
+            disabled={updateNameLoading}
           >
-            {updateNameLoading ? <CircularProgress /> : `Save changes`}
+            Save changes
           </Button>
         </DialogActions>
         <Button onClick={closeDialog}>Close</Button>
