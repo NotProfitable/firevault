@@ -219,6 +219,7 @@ export default function ImageTile(props: {
             }}
             color="secondary"
             variant="contained"
+            disabled={deleteLoading}
           >
             {deleteLoading ? <CircularProgress /> : `Delete File`}
           </Button>
