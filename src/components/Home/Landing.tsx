@@ -7,9 +7,9 @@ export default function Landing() {
     <div>
       <LandingAppBar />
       <div className="flex flex-col items-center justify-center h-screen text-center text-black dark:text-white">
-        <div className="m-32">
+        <div className="m-32 min-w-max">
           <h1 className="text-4xl font-bold">Landing</h1>
-          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fire.auth()} />
+          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={fire.auth()} className="min-w-max" />
         </div>
       </div>
     </div>
