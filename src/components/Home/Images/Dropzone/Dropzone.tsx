@@ -69,7 +69,7 @@ function DropzoneArea(props: { reloadData: Function }) {
     isDragReject,
     acceptedFiles,
   } = useDropzone({
-    maxFiles: 1,
+    // maxFiles: 5,
   });
   const files = acceptedFiles.map((file) => (
     <li key={file.name}>{file.name}</li>
@@ -86,48 +86,43 @@ function DropzoneArea(props: { reloadData: Function }) {
   const closeStatusSnackbar = () => {
     setUploadStatusShown(false);
   };
-  const handleNameChange = (event: any) => {
-    setCustomName(event.target.value);
-  };
   const uploadFiles = () => {
-    if (acceptedFiles.length !== 1) {
-      openSnackbar();
-      return;
-    }
-    setLoading(true);
-    const formData = new FormData();
+    acceptedFiles.map((item, index) => {
+      setLoading(true);
+      const formData = new FormData();
 
-    formData.append(`file`, acceptedFiles[0]);
-    formData.append(`customName`, customName);
-    fire
-      .auth()
-      .currentUser?.getIdToken(false)
-      .then((idToken) => {
-        fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
-          method: `POST`,
-          headers: {
-            Authorization: idToken,
-          },
-          body: formData,
-        })
-          .then((res) => {
-            if (res.status !== 200) {
-              setLoading(false);
-              setUploadStatus(
-                `${res.status} - ${statusName[`${res.status}_NAME`]}`,
-              );
-              openStatusSnackbar();
-              uploadError = true;
-            }
-            return res.json();
+      formData.append(`file`, acceptedFiles[index]);
+      formData.append(`customName`, acceptedFiles[index].name);
+      fire
+        .auth()
+        .currentUser?.getIdToken(false)
+        .then((idToken) => {
+          fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
+            method: `POST`,
+            headers: {
+              Authorization: idToken,
+            },
+            body: formData,
           })
-          .then((json) => {
-            setLoading(false);
-            if (!uploadError) {
-              props.reloadData();
-            }
-          });
-      });
+            .then((res) => {
+              if (res.status !== 200) {
+                setLoading(false);
+                setUploadStatus(
+                  `${res.status} - ${statusName[`${res.status}_NAME`]}`,
+                );
+                openStatusSnackbar();
+                uploadError = true;
+              }
+              return res.json();
+            })
+            .then((json) => {
+              setLoading(false);
+              if (!uploadError) {
+                props.reloadData();
+              }
+            });
+        });
+    });
   };
   return (
     <div className="container w-72 sm:w-96">
@@ -144,26 +139,6 @@ function DropzoneArea(props: { reloadData: Function }) {
       </aside>
 
       <div className="flex flex-row justify-center align-middle p-2">
-        <TextField
-          className="w-full"
-          onFocusCapture={() => {
-            if (customName === `` && acceptedFiles.length > 0) {
-              setCustomName(acceptedFiles[0].name);
-            }
-          }}
-          placeholder={
-            acceptedFiles.length === 1
-              ? acceptedFiles[0].name
-              : `File Name (optional)`
-          }
-          variant="outlined"
-          InputProps={{
-            style: { backgroundColor: `white` },
-          }}
-          value={customName}
-          onChange={handleNameChange}
-        />
-
         <Button
           onClick={uploadFiles}
           variant="contained"
