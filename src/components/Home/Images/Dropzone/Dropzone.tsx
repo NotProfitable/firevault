@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
-import { Button, Snackbar, TextField, LinearProgress } from '@material-ui/core';
+import {
+  Button,
+  Snackbar,
+  TextField,
+  LinearProgress,
+  CircularProgress,
+} from '@material-ui/core';
 import Alert from '@/components/Alert';
 import fire from '../../../../../utils/firebase';
-
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import ErrorIcon from '@material-ui/icons/Error';
 const statusName = require(`http-status`);
 
 const getColor = (props: {
@@ -48,19 +55,17 @@ function DropzoneArea(props: { reloadData: Function }) {
   const [alertOpen, setAlertOpen] = useState(false);
   const [customName, setCustomName] = useState(``);
   let uploadError = false;
-  const styles = (theme: any) => ({
-    textField: {
-      width: `90%`,
-      marginLeft: `auto`,
-      marginRight: `auto`,
-      paddingBottom: 0,
-      marginTop: 0,
-      fontWeight: 500,
-    },
-    input: {
-      color: `white`,
-    },
-  });
+  const [fUSL, setFUSL] = useState(new Array(10));
+  let fileUploadStatusList = new Array(10);
+  const clearStatuses = () => {
+    fileUploadStatusList.map((item, index) => {
+      fileUploadStatusList[index] = <></>;
+    });
+    setFUSL(fileUploadStatusList);
+  };
+  const onDrop = useCallback((acceptedFiles) => {
+    clearStatuses();
+  }, []);
   const {
     getRootProps,
     getInputProps,
@@ -68,11 +73,13 @@ function DropzoneArea(props: { reloadData: Function }) {
     isDragAccept,
     isDragReject,
     acceptedFiles,
-  } = useDropzone({
-    // maxFiles: 5,
-  });
-  const files = acceptedFiles.map((file) => (
-    <li key={file.name}>{file.name}</li>
+  } = useDropzone({ onDrop });
+
+  const files = acceptedFiles.map((file, fIndex) => (
+    <div className="flex flex-row w-full text-left dark:bg-gray-500 justify-between items-center m-1 p-3">
+      <li key={file.name}>{file.name}</li>
+      {fUSL[fIndex]}
+    </div>
   ));
   const openSnackbar = () => {
     setAlertOpen(true);
@@ -87,7 +94,11 @@ function DropzoneArea(props: { reloadData: Function }) {
     setUploadStatusShown(false);
   };
   const uploadFiles = () => {
+    clearStatuses();
+    setFUSL(fileUploadStatusList);
     acceptedFiles.map((item, index) => {
+      fileUploadStatusList[index] = <CircularProgress />;
+      setFUSL(fileUploadStatusList);
       setLoading(true);
       const formData = new FormData();
 
@@ -106,6 +117,9 @@ function DropzoneArea(props: { reloadData: Function }) {
           })
             .then((res) => {
               if (res.status !== 200) {
+                fileUploadStatusList[index] = <ErrorIcon color="secondary" />;
+                setFUSL(fileUploadStatusList);
+
                 setLoading(false);
                 setUploadStatus(
                   `${res.status} - ${statusName[`${res.status}_NAME`]}`,
@@ -116,6 +130,9 @@ function DropzoneArea(props: { reloadData: Function }) {
               return res.json();
             })
             .then((json) => {
+              fileUploadStatusList[index] = <CheckBoxIcon />;
+              setFUSL(fileUploadStatusList);
+
               setLoading(false);
               if (!uploadError) {
                 props.reloadData();
@@ -133,12 +150,12 @@ function DropzoneArea(props: { reloadData: Function }) {
         <input {...getInputProps()} />
         <p>Drag and drop some files here, or click to select files</p>
       </Container>
-      <aside className="flex flex-row justify-center align-middle p-3">
+      <div className="flex flex-row justify-center align-middle p-3">
         {/* <h4>Files</h4> */}
-        <ul>{status === `` ? files : status}</ul>
-      </aside>
+        <ul>{files}</ul>
+      </div>
 
-      <div className="flex flex-row justify-center align-middle p-2">
+      <div className="flex flex-row justify-center align-middle p-2 m-3">
         <Button
           onClick={uploadFiles}
           variant="contained"
