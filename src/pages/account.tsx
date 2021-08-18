@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import Loading from '@/components/Home/Loading';
 import Landing from '@/components/Home/Landing';
-import HomePage from '@/components/Home/Home';
+import AccountPage from '@/components/Account/AccountPage';
 import PageHead from '@/components/PageHead';
 import UploadStick from '@/components/UploadStick';
 import fire from '../../utils/firebase';
@@ -12,8 +12,10 @@ export default function Home() {
 
   useEffect(() => {
     const unregisterAuthObserver = fire.auth().onAuthStateChanged((user) => {
-      setIsSignedIn(!!user);
-      setSigned(true);
+      setTimeout(() => {
+        setIsSignedIn(!!user);
+        setSigned(true);
+      }, 1000);
     });
     return () => unregisterAuthObserver();
   }, []);
@@ -25,7 +27,7 @@ export default function Home() {
     if (!isSignedIn) {
       return <Landing />;
     }
-    return <HomePage />;
+    return <AccountPage />;
   };
 
   return (

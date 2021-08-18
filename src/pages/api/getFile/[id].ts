@@ -18,7 +18,10 @@ const handler = async (req: any, res: any) => {
     query: { id },
   } = req;
 
-  if (id.length !== 52) res.send(`This file does not exist`);
+  if (id.length !== 52) {
+    res.send(`This file does not exist`);
+    return;
+  }
 
   const uid = id.substring(0, 28);
   const fileMongoId = id.substring(28);
@@ -34,8 +37,7 @@ const handler = async (req: any, res: any) => {
     try {
       res.setHeader(`Content-Type`, ftype.mime);
       res.send(response.buffer.buffer);
-    }
-    catch (e) {
+    } catch (e) {
       rollbar.error(`mime error`);
       res.send(response.buffer.toString());
     }

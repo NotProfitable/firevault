@@ -74,13 +74,18 @@ function DropzoneArea(props: { reloadData: Function }) {
     isDragAccept,
     isDragReject,
     acceptedFiles,
-  } = useDropzone({ onDrop });
+  } = useDropzone({
+    onDrop,
+    maxFiles: 10,
+  });
 
   const files = acceptedFiles.map((file, fIndex) => (
     <div
-      className={`flex flex-row w-full text-left dark:bg-gray-500 justify-between items-center m-1 p-3 ${
+      className={`flex flex-row w-full text-left bg-gray-200 dark:bg-gray-500 justify-between items-center m-1 p-3 ${
         fIndex === 0 ? `rounded-tl-md rounded-tr-md` : ``
-      } ${fIndex === acceptedFiles.length-1 ? `rounded-bl-md rounded-br-md` : ``}`}
+      } ${
+        fIndex === acceptedFiles.length - 1 ? `rounded-bl-md rounded-br-md` : ``
+      }`}
     >
       <li key={file.name}>{file.name}</li>
       {fUSL[fIndex]}
@@ -153,7 +158,7 @@ function DropzoneArea(props: { reloadData: Function }) {
         className="bg-gray-100 border-gray-400 dark:bg-gray-600"
       >
         <input {...getInputProps()} />
-        <p>Drag and drop some files here, or click to select files</p>
+        <p>Drag and drop some files here, or click to select files (maximum 10 files)</p>
       </Container>
       <div className="flex flex-row justify-center align-middle p-3">
         {/* <h4>Files</h4> */}
