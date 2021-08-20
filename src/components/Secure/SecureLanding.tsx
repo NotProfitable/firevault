@@ -8,7 +8,7 @@ export default function Landing() {
       <LandingAppBar />
       <div className="flex flex-col items-center justify-center h-screen text-center text-black dark:text-white">
         <div className="m-32 min-w-max">
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-xl font-bold max-w-screen-sm break-words">
             Reauthenticate to perform this action.
           </h1>
           <StyledFirebaseAuth

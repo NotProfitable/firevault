@@ -15,14 +15,10 @@ import { useState } from 'react';
 
 export default function Settings() {
   const openDeleteDialog = () => {
-    window.location.replace(`/secure/delete`);
+    window.location.replace(`/secure/delete/`);
   };
-  const [clearDialogOpen, setClearDialogOpen] = useState(false);
   const openClearDialog = () => {
-    setClearDialogOpen(true);
-  };
-  const closeClearDialog = () => {
-    setClearDialogOpen(false);
+    window.location.replace(`/secure/clear/`);
   };
 
   const [deleteAndClearDialogOpen, setDeleteAndClearDialogOpen] = useState(
@@ -37,7 +33,6 @@ export default function Settings() {
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
-      <ClearDialog open={clearDialogOpen} handleClose={closeClearDialog} />
       <DeleteAndClearDialog
         open={deleteAndClearDialogOpen}
         handleClose={closeDeleteAndClearDialog}
