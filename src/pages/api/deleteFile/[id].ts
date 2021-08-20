@@ -6,7 +6,7 @@ import {
 } from '../../../../middlewares/database';
 import { cors } from '../../../../middlewares/cors';
 import { FileDocumentMongo } from '../../../../utils/types';
-import { getUID } from "../../../../middlewares/getUID";
+import { getUID } from '../../../../middlewares/getUID';
 
 const FileType = require(`file-type`);
 

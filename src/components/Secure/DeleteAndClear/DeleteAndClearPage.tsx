@@ -10,7 +10,7 @@ export default function DeleteAndClearPage() {
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/clearData`, {
+        fetch(`/api/clearData`, {
           method: `POST`,
           headers: {
             Authorization: idToken,
