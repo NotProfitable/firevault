@@ -42,7 +42,7 @@ export default function Footer(props: { dataUsage?: number }) {
     </div>
   );
   return (
-    <footer className="flex flex-row justify-center m-3 relative bottom-0 text-center p-0 m-0 w-full">
+    <footer className="flex flex-col justify-center m-3 relative bottom-0 text-center p-0 m-0 w-full">
       {release}
     </footer>
   );

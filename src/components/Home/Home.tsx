@@ -10,6 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import Footer from '@/components/Home/Footer';
 import fire from '../../../utils/firebase';
 import { FileDocumentMongo } from "../../../utils/types";
+import Links from "@/components/Home/Links";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +96,7 @@ export default function HomePage() {
               />
             </main>
             <Footer dataUsage={totalData} />
+            <Links />
           </div>
         </>
       )}
