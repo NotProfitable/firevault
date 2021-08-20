@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import Loading from '@/components/Home/Loading';
 import Landing from '@/components/Home/Landing';
 import AccountPage from '@/components/Account/AccountPage';
 import PageHead from '@/components/PageHead';
 import UploadStick from '@/components/UploadStick';
-import fire from '../../utils/firebase';
+import fire from '../../../utils/firebase';
 
 export default function Home() {
   const [isSignedIn, setIsSignedIn] = useState(false);

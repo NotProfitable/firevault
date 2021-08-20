@@ -9,20 +9,14 @@ import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import Divider from '@material-ui/core/Divider';
 import SettingsPageHead from '@/components/Account/SettingsPageHead';
 import { Button } from '@material-ui/core';
-import DeleteDialog from '@/components/Account/AccountDialog/DeleteDialog';
 import ClearDialog from '@/components/Account/AccountDialog/ClearDialog';
 import DeleteAndClearDialog from '@/components/Account/AccountDialog/DeleteAndClearDialog';
 import { useState } from 'react';
 
 export default function Settings() {
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const openDeleteDialog = () => {
-    setDeleteDialogOpen(true);
+    window.location.replace(`/secure/delete`);
   };
-  const closeDeleteDialog = () => {
-    setDeleteDialogOpen(false);
-  };
-
   const [clearDialogOpen, setClearDialogOpen] = useState(false);
   const openClearDialog = () => {
     setClearDialogOpen(true);
@@ -43,7 +37,6 @@ export default function Settings() {
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
-      <DeleteDialog open={deleteDialogOpen} handleClose={closeDeleteDialog} />
       <ClearDialog open={clearDialogOpen} handleClose={closeClearDialog} />
       <DeleteAndClearDialog
         open={deleteAndClearDialogOpen}

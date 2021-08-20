@@ -158,7 +158,7 @@ function DropzoneArea(props: { reloadData: Function }) {
         className="bg-gray-100 border-gray-400 dark:bg-gray-600"
       >
         <input {...getInputProps()} />
-        <p>Drag and drop some files here, or click to select files (maximum 10 files)</p>
+        <p>Drag and drop some files here, or click to select files (max 10 files)</p>
       </Container>
       <div className="flex flex-row justify-center align-middle p-3">
         {/* <h4>Files</h4> */}
