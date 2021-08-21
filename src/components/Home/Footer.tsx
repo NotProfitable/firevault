@@ -1,6 +1,6 @@
 import { LinearProgress } from '@material-ui/core';
 import { useState, useEffect } from 'react';
-import { GHRelease } from '../../../utils/types';
+import { GHRelease } from '../../utils/types';
 
 export default function Footer(props: { dataUsage?: number }) {
   const [releaseInfo, setReleaseInfo] = useState<Array<GHRelease>>([]);

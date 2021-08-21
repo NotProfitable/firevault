@@ -1,6 +1,6 @@
 import LandingAppBar, { uiConfig } from '@/components/LandingAppBar';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import fire from '../../../utils/firebase';
+import fire from '../../utils/firebase';
 
 export default function Landing() {
   return (

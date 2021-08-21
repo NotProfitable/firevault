@@ -1,6 +1,6 @@
 import DeleteAppBar from '@/components/Secure/Delete/DeleteAppBar';
 import Footer from '@/components/Home/Footer';
-import fire from '../../../../utils/firebase';
+import fire from '../../../utils/firebase';
 import Button from '@material-ui/core/Button';
 
 export default function DeletePage() {

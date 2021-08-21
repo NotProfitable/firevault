@@ -15,8 +15,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
 import React, { useState } from 'react';
 import Alert from '@/components/Alert';
-import { FileDocumentMongo } from '../../../../../utils/types';
-import fire from '../../../../../utils/firebase';
+import { FileDocumentMongo } from '../../../utils/types';
+import fire from '../../../utils/firebase';
 
 const statusName = require(`http-status`);
 

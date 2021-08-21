@@ -11,7 +11,7 @@ import {
 import Alert from '@/components/Alert';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import ErrorIcon from '@material-ui/icons/Error';
-import fire from '../../../../../utils/firebase';
+import fire from '../../../utils/firebase';
 
 const statusName = require(`http-status`);
 

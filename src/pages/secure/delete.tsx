@@ -5,7 +5,7 @@ import HomePage from '@/components/Home/Home';
 import PageHead from '@/components/PageHead';
 import UploadStick from '@/components/UploadStick';
 import DeletePage from "@/components/Secure/Delete/DeletePage";
-import fire from '../../../utils/firebase';
+import fire from '../../utils/firebase';
 
 export default function Delete() {
   const [isSignedIn, setIsSignedIn] = useState(false);

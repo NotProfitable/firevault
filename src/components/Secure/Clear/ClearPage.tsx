@@ -1,6 +1,6 @@
 import ClearAppBar from '@/components/Secure/Clear/ClearAppBar';
 import Footer from '@/components/Home/Footer';
-import fire from '../../../../utils/firebase';
+import fire from '../../../utils/firebase';
 import Button from '@material-ui/core/Button';
 import ErrorIcon from "@material-ui/icons/Error";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";

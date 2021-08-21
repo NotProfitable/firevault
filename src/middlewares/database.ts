@@ -1,5 +1,5 @@
 import {MongoClient} from 'mongodb';
-import {dbname, mongoUsers} from '../credentials';
+import {dbname, mongoUsers} from '../../credentials';
 
 const uri = mongoUsers;
 

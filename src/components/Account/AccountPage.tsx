@@ -1,6 +1,6 @@
 import AccountAppBar from '@/components/Account/AccountAppBar';
 import Footer from '@/components/Home/Footer';
-import fire from '../../../utils/firebase';
+import fire from '../../utils/firebase';
 import Settings from '@/components/Account/Settings';
 
 export default function HomePage() {

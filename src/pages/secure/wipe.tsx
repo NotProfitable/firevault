@@ -5,7 +5,7 @@ import HomePage from '@/components/Home/Home';
 import PageHead from '@/components/PageHead';
 import UploadStick from '@/components/UploadStick';
 import DeleteAndClearPage from "@/components/Secure/DeleteAndClear/DeleteAndClearPage";
-import fire from '../../../utils/firebase';
+import fire from '../../utils/firebase';
 
 export default function Wipe() {
   const [isSignedIn, setIsSignedIn] = useState(false);

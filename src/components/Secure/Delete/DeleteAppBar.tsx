@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import { IconButton } from '@material-ui/core';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
-import fire from '../../../../utils/firebase';
+import fire from '../../../utils/firebase';
 
 export default function DeleteAppBar() {
   const photoURL = fire.auth()?.currentUser?.photoURL;

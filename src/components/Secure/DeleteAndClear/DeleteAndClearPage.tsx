@@ -2,7 +2,7 @@ import DeleteAndClearAppBar from '@/components/Secure/DeleteAndClear/DeleteAndCl
 import Footer from '@/components/Home/Footer';
 import Button from '@material-ui/core/Button';
 import React from 'react';
-import fire from '../../../../utils/firebase';
+import fire from '../../../utils/firebase';
 
 export default function DeleteAndClearPage() {
   const deleteAccount = () => {

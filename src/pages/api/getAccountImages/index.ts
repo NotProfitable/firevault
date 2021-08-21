@@ -1,10 +1,8 @@
-import { runMiddleware } from '../../../../middlewares/runMiddleware';
-import { cors } from '../../../../middlewares/cors';
-import { getUID } from '../../../../middlewares/getUID';
-import { FileDocumentMongo } from '../../../../utils/types';
-import { connectToDatabase } from '../../../../middlewares/database';
-
-const FileType = require(`file-type`);
+import { runMiddleware } from '@/middlewares/runMiddleware';
+import { cors } from '@/middlewares/cors';
+import { getUID } from '@/middlewares/getUID';
+import { FileDocumentMongo } from '@/utils/types';
+import { connectToDatabase } from '@/middlewares/database';
 
 const handler = async (req: any, res: any) => {
   await runMiddleware(req, res, cors);

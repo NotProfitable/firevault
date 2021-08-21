@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import fire from '../../utils/firebase';
+import fire from '../utils/firebase';
 
 export const uiConfig = {
   signInFlow: `popup`,

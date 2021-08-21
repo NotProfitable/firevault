@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { firebaseConfig } from '../../credentials';
+import { firebaseConfig } from '../../../credentials';
 
 if (!firebase.apps.length) {
   try {

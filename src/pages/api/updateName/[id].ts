@@ -1,8 +1,8 @@
-import {ObjectId} from 'bson';
-import {runMiddleware} from '../../../../middlewares/runMiddleware';
-import {connectToDatabase,} from '../../../../middlewares/database';
-import {cors} from '../../../../middlewares/cors';
-import {getUID} from '../../../../middlewares/getUID';
+import { ObjectId } from 'bson';
+import { runMiddleware } from '@/middlewares/runMiddleware';
+import { connectToDatabase } from '@/middlewares/database';
+import { cors } from '@/middlewares/cors';
+import { getUID } from '@/middlewares/getUID';
 
 const FileType = require(`file-type`);
 

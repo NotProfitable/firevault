@@ -2,14 +2,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useEffect, useState } from 'react';
 import SignedInAppBar from '@/components/SignedInAppBar';
 import AccountImages from '@/components/Home/Images/AccountImages';
-import DropzoneArea from '@/components/Home/Images/Dropzone/Dropzone';
+import DropzoneArea from '@/components/Home/Images/Dropzone';
 import PageHead from '@/components/PageHead';
 import Loading from '@/components/Home/Loading';
 import CachedIcon from '@material-ui/icons/Cached';
 import Fab from '@material-ui/core/Fab';
 import Footer from '@/components/Home/Footer';
-import fire from '../../../utils/firebase';
-import { FileDocumentMongo } from "../../../utils/types";
+import fire from '../../utils/firebase';
+import { FileDocumentMongo } from "../../utils/types";
 import Links from "@/components/Home/Links";
 
 const useStyles = makeStyles((theme) => ({

@@ -1,13 +1,13 @@
 import multer from 'multer';
 import { v4 as uuid4 } from 'uuid';
-import { runMiddleware } from '../../../../middlewares/runMiddleware';
+import { runMiddleware } from '@/middlewares/runMiddleware';
 import {
   connectToDatabase,
   connectToFileDatabase,
-} from '../../../../middlewares/database';
-import { rollbar } from '../../../../middlewares/rollbar';
-import { cors } from '../../../../middlewares/cors';
-import { getUID } from '../../../../middlewares/getUID';
+} from '@/middlewares/database';
+import { rollbar } from '@/middlewares/rollbar';
+import { cors } from '@/middlewares/cors';
+import { getUID } from '@/middlewares/getUID';
 
 const stream = require(`stream`);
 const FileType = require(`file-type`);

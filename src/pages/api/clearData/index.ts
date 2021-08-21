@@ -1,12 +1,12 @@
 import { ObjectId } from 'bson';
-import { runMiddleware } from '../../../../middlewares/runMiddleware';
+import { runMiddleware } from '../../../middlewares/runMiddleware';
 import {
   connectToDatabase,
   connectToFileDatabase
-} from '../../../../middlewares/database';
-import { cors } from '../../../../middlewares/cors';
-import { FileDocumentMongo } from '../../../../utils/types';
-import { getUID } from '../../../../middlewares/getUID';
+} from '../../../middlewares/database';
+import { cors } from '../../../middlewares/cors';
+import { FileDocumentMongo } from '../../../utils/types';
+import { getUID } from '@/middlewares/getUID';
 
 const FileType = require(`file-type`);
 
