@@ -30,7 +30,7 @@ export default function DeleteAndClearPage() {
   };
   return (
     <div>
-      <DeleteAndClearAppBar/>
+      <DeleteAndClearAppBar />
       <div className="flex flex-col justify-center items-center pt-20">
         <main className="flex flex-col justify-center flex-1 items-center p-5 dark:text-blue-50">
           <p className="text-4xl">Delete Account Clear Data</p>
@@ -52,7 +52,7 @@ export default function DeleteAndClearPage() {
             </Button>
           </div>
         </main>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );

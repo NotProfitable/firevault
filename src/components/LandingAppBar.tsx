@@ -14,6 +14,7 @@ import fire from '../../utils/firebase';
 
 export const uiConfig = {
   signInFlow: `popup`,
+  immediateFederatedRedirect: false,
   signInOptions: [
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
     firebase.auth.GithubAuthProvider.PROVIDER_ID,

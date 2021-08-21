@@ -17,7 +17,7 @@ export default function FilePage() {
       </Head>
       <div className="m-auto w-screen h-screen flex flex-col justify-between">
         {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
-        <iframe className="m-0 h-screen" src={`/api/getFile/${id}`} />
+        <iframe className="m-0 h-screen" src={`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/getFile/${id}`} />
         <Button
           variant="contained"
           color="primary"
