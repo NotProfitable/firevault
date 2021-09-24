@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import Loading from '@/components/Home/Loading';
 import SecureLanding from '@/components/Secure/SecureLanding';
-import HomePage from '@/components/Home/Home';
 import PageHead from '@/components/PageHead';
 import UploadStick from '@/components/UploadStick';
-import DeletePage from "@/components/Secure/Delete/DeletePage";
-import fire from '../../utils/firebase';
+import DeletePage from '@/components/Secure/Delete/DeletePage';
+import fire from '@/utils/firebase';
 
 export default function Delete() {
   const [isSignedIn, setIsSignedIn] = useState(false);

@@ -15,6 +15,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import CloseIcon from '@material-ui/icons/Close';
 import React, { useState } from 'react';
 import Alert from '@/components/Alert';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import FilePreviewer from 'react-file-previewer';
 import { FileDocumentMongo } from '../../../utils/types';
 import fire from '../../../utils/firebase';
 
@@ -130,18 +133,21 @@ export default function ImageTile(props: {
   };
 
   return (
-    <div
-      className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4">
-      <div
-        className="w-full p-1 w-3/4 text-left m-0 md:p-6  text-center md:text-left space-y-4 break-all flex flex-col justify-between">
+    <div className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4">
+      <div className="w-full p-1 w-3/4 text-left m-0 md:p-6  text-center md:text-left space-y-4 break-all flex flex-col justify-between">
+        <div className="w-full flex flex-row justify-center">
+          <FilePreviewer
+            style={{ width: `50px` }}
+            file={{
+              url: rawLink,
+            }}
+            hideControls
+          />
+        </div>
         <blockquote className="w-full flex flex-row items-start justify-between">
           <p className="text-lg font-semibold">{name}</p>
-          <IconButton
-            className="p-0 m-0"
-            onClick={openDialog}
-            component="span"
-          >
-            <SettingsIcon className="text-black dark:text-white"/>
+          <IconButton className="p-0 m-0" onClick={openDialog} component="span">
+            <SettingsIcon className="text-black dark:text-white" />
           </IconButton>
         </blockquote>
         <figcaption className="font-medium">
@@ -178,7 +184,7 @@ export default function ImageTile(props: {
               onClick={closeDialog}
               component="span"
             >
-              <CloseIcon className="text-black dark:text-white"/>
+              <CloseIcon className="text-black dark:text-white" />
             </IconButton>
           </blockquote>
         </DialogTitle>

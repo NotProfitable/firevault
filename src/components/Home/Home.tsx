@@ -38,7 +38,7 @@ export default function HomePage() {
       .auth()
       .currentUser?.getIdToken(false)
       .then((idToken) => {
-        fetch(`/api/getAccountImages`, {
+        fetch(`/api/getAccountContent`, {
           method: `GET`,
           headers: {
             Authorization: idToken,
