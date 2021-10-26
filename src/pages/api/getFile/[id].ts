@@ -13,15 +13,6 @@ const stream = require(`stream`);
 const FileType = require(`file-type`);
 const zlib = require(`zlib`);
 const handler = async (req: any, res: any) => {
-  // res.writeHead(200, {
-  //   'Content-Encoding': 'gzip',      // setting the encoding to gzip
-  // });
-  const gzip = zlib.createGzip();
-
-  const interval = setInterval(() => {
-    gzip.write(` `);
-    gzip.flush();
-  }, 1000);
   await runMiddleware(req, res, cors);
 
   const {
@@ -47,23 +38,9 @@ const handler = async (req: any, res: any) => {
     try {
       res.setHeader(`Content-Type`, ftype.mime);
       res.send(response.buffer.buffer);
-      setTimeout(() => {
-        gzip.write(response.buffer.buffer);
-        clearInterval(interval);
-        gzip.end();
-      }, 100);
-
-      // Pipe the Gzip Transform Stream into the Response stream
-      gzip.pipe(res);
     } catch (e) {
       rollbar.error(`mime error`);
-      setTimeout(() => {
-        gzip.write(response.buffer.toString());
-        clearInterval(interval);
-        gzip.end();
-      }, 100);
-
-      gzip.pipe(res);
+      res.send(response.buffer.toString());
     }
   } else {
     res.send(`This file does not exist`);
