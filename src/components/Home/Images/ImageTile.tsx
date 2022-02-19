@@ -136,13 +136,13 @@ export default function ImageTile(props: {
     <div className="w-72 md:w-96 md:flex transition duration-300 ease-in-out bg-gray-200 dark:bg-gray-600 rounded-md md:hover:shadow-xl m-4">
       <div className="w-full p-1 w-3/4 text-left m-0 md:p-6  text-center md:text-left space-y-4 break-all flex flex-col justify-between">
         <div className="w-full flex flex-row justify-center">
-          <FilePreviewer
+          {/*<FilePreviewer
             style={{ width: `50px` }}
             file={{
               url: rawLink,
             }}
             hideControls
-          />
+          />*/}
         </div>
         <blockquote className="w-full flex flex-row items-start justify-between">
           <p className="text-lg font-semibold">{name}</p>
