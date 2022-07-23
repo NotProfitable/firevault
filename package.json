@@ -45,7 +45,7 @@
     "bson": "1.1.5",
     "content-disposition": "0.5.2",
     "cors": "2.8.5",
-    "file-type": "16.4.0",
+    "file-type": "16.5.4",
     "file-viewer": "1.2.0",
     "firebase": "8.2.9",
     "firebase-admin": "9.5.0",
