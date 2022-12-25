@@ -118,7 +118,7 @@ function DropzoneArea(props: { reloadData: Function }) {
         .auth()
         .currentUser?.getIdToken(false)
         .then((idToken) => {
-          fetch(`${process.env.NEXT_PUBLIC_UPLOAD_BASE}/api/addFile`, {
+          fetch(`/api/addFile`, {
             method: `POST`,
             headers: {
               Authorization: idToken,
