@@ -154,12 +154,12 @@ export default function ImageTile(props: {
           <div className="text-cyan-600">{dateAdded}</div>
           <div className="text-cyan-600">{size} bytes</div>
           <div className="flex flex-row justify-center md:justify-start">
-            <a href={link} className="text-blue-500 mr-3">
-              Link
-            </a>
-            {`  -  `}
+            {/*<a href={link} className="text-blue-500 mr-3">*/}
+            {/*  Link*/}
+            {/*</a>*/}
+            {/*{`  -  `}*/}
             <a href={rawLink} className="text-blue-500 ml-3">
-              Raw File
+              Link
             </a>
           </div>
         </figcaption>
