@@ -152,7 +152,7 @@ export default function ImageTile(props: {
         </blockquote>
         <figcaption className="font-medium">
           <div className="text-cyan-600">{dateAdded}</div>
-          <div className="text-cyan-600">{size} bytes</div>
+          <div className="text-cyan-600">{size/1000000} mb</div>
           <div className="flex flex-row justify-center md:justify-start">
             {/*<a href={link} className="text-blue-500 mr-3">*/}
             {/*  Link*/}
